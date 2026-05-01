@@ -5,6 +5,7 @@ import {
   uuid,
   integer,
   uniqueIndex,
+  boolean,
 } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
@@ -13,7 +14,9 @@ export const users = pgTable("users", {
   email: text("email").notNull().unique(),
   password: text("password").notNull(),
 
-  cfHandle: text("cf_handle"), // add later
+  cfHandle: text("cf_handle"),
+  cfVerified: boolean("cf_verified").default(false),
+  cfVerificationStartedAt: timestamp("cf_verification_started_at"),
 
   points: integer("points").default(0),
   streak: integer("streak").default(0),
@@ -55,3 +58,24 @@ export const verificationTokens = pgTable("verification_tokens", {
   expiresAt: timestamp("expires_at").notNull(),
 });
 
+export const problems = pgTable("problems", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  rating: integer("rating").notNull(),
+  tags: text("tags").array().notNull(),
+});
+
+export const dailyProblems = pgTable("daily_problems", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  date: timestamp("date").notNull().unique(),
+  problemId: text("problem_id").notNull(),
+});
+
+export const submissions = pgTable("submissions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id").notNull(),
+  problemId: text("problem_id").notNull(),
+  status: text("status").notNull(), // "AC", "WA", "TLE", etc.
+  submittedAt: timestamp("submitted_at").defaultNow(),
+  pointsAwarded: integer("points_awarded").default(0),
+});
