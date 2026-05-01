@@ -59,17 +59,37 @@ export const verificationTokens = pgTable("verification_tokens", {
 });
 
 export const problems = pgTable("problems", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey(), // "1791A"
+  contestId: integer("contest_id").notNull(),
+  index: text("index").notNull(),
+
   name: text("name").notNull(),
-  rating: integer("rating").notNull(),
-  tags: text("tags").array().notNull(),
+  rating: integer("rating"),
+  tags: text("tags").array(),
+
+  solvedCount: integer("solved_count"),
+
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
-export const dailyProblems = pgTable("daily_problems", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  date: timestamp("date").notNull().unique(),
-  problemId: text("problem_id").notNull(),
-});
+export const dailyProblems = pgTable(
+  "daily_problems",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+
+    problemId: text("problem_id").notNull(),
+
+    date: text("date").notNull(), // YYYY-MM-DD
+    difficulty: text("difficulty"), // easy | medium | hard
+
+    problemLink: text("problem_link").notNull(),
+
+    createdAt: timestamp("created_at").defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("unique_daily_problem").on(table.problemId, table.date),
+  ],
+);
 
 export const submissions = pgTable("submissions", {
   id: uuid("id").defaultRandom().primaryKey(),

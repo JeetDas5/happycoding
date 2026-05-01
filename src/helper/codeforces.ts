@@ -12,12 +12,6 @@ export async function fetchProblems() {
   return data.result.problems;
 }
 
-export function filterProblems(problems: any[]) {
-  return problems.filter(
-    (p) =>
-      p.rating >= 800 && p.rating <= 1600 && !p.tags.includes("interactive"),
-  );
-}
 
 export async function getUserSubmissions(handle: string, count: number = 10) {
   const res = await axios.get(
@@ -59,7 +53,7 @@ export async function markSolved(userId: string, problemId: string) {
 
   const problem = await getProblem(problemId);
 
-  const points = calculatePoints(problem.points);
+  const points = calculatePoints(problem.rating || problem.points || 0);
 
   await db.insert(submissions).values({
     userId,
@@ -75,4 +69,15 @@ export async function markSolved(userId: string, problemId: string) {
       points: sql`${users.points} + ${points}`,
     })
     .where(eq(users.id, userId));
+}
+
+export async function getTodayProblem() {
+  const today = new Date().toISOString().split("T")[0];
+
+  return await db.query.dailyProblems.findFirst({
+    where: (d, { eq }) => eq(d.date, today),
+    with: {
+      problem: true,
+    },
+  });
 }
