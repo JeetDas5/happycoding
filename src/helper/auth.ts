@@ -7,3 +7,11 @@ export async function isLeader(userId: string, orgId: string) {
 
   return membership?.role === "leader";
 }
+
+export async function getUser(userId: string) {
+  const user = await db.query.users.findFirst({
+    where: (u, { eq }) => eq(u.id, userId),
+  });
+
+  return user;
+}

@@ -3,7 +3,7 @@
 
 import db from "@/db";
 import { users } from "@/db/schema";
-import { getUserSubmissions } from "@/helper";
+import { getUser, getUserSubmissions } from "@/helper";
 
 import { eq } from "drizzle-orm";
 
@@ -21,20 +21,10 @@ export async function startCFVerification(userId: string, handle: string) {
 }
 
 export async function verifyCF(userId: string) {
-  const user = await db.query.users.findFirst({
-    where: eq(users.id, userId),
-  });
-
-  if (!user) {
-    throw new Error("User not found");
+  const user = await getUser(userId);
+  if (!user || !user.cfHandle || !user.cfVerificationStartedAt) {
+    return false;
   }
-
-  if (!user.cfHandle || !user.cfVerificationStartedAt) {
-    throw new Error(
-      "User does not have a Codeforces handle or verification not started",
-    );
-  }
-
   const submissions = await getUserSubmissions(user.cfHandle);
 
   const startTime = new Date(user.cfVerificationStartedAt).getTime() / 1000;
@@ -49,8 +39,8 @@ export async function verifyCF(userId: string) {
       .set({ cfVerified: true })
       .where(eq(users.id, user.id));
 
-    return { success: true };
+    return true;
   }
 
-  return { success: false, message: "No valid submission found" };
+  return false;
 }
