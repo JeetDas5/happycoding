@@ -8,11 +8,26 @@ export function Navbar() {
         <Link href="/" className="text-xl font-bold tracking-tight">
           happy<span className="text-primary">coding</span>
         </Link>
-        
+
         <div className="hidden md:flex items-center gap-8">
-          <Link href="#features" className="text-sm font-medium hover:text-primary transition-colors">Features</Link>
-          <Link href="#testimonials" className="text-sm font-medium hover:text-primary transition-colors">Testimonials</Link>
-          <Link href="#pricing" className="text-sm font-medium hover:text-primary transition-colors">Pricing</Link>
+          <Link
+            href="#features"
+            className="text-sm font-medium hover:text-primary transition-colors"
+          >
+            Features
+          </Link>
+          <Link
+            href="#testimonials"
+            className="text-sm font-medium hover:text-primary transition-colors"
+          >
+            Testimonials
+          </Link>
+          <Link
+            href="#pricing"
+            className="text-sm font-medium hover:text-primary transition-colors"
+          >
+            Pricing
+          </Link>
         </div>
 
         <div className="flex items-center gap-4">

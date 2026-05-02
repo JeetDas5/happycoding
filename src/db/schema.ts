@@ -7,6 +7,7 @@ import {
   uniqueIndex,
   boolean,
 } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
 
 export const users = pgTable("users", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -110,3 +111,31 @@ export const submissions = pgTable(
     uniqueIndex("unique_submission").on(table.userId, table.problemId),
   ],
 );
+
+// Relations
+export const usersRelations = relations(users, ({ many }) => ({
+  memberships: many(memberships),
+  submissions: many(submissions),
+}));
+
+export const organizationsRelations = relations(organizations, ({ many }) => ({
+  memberships: many(memberships),
+}));
+
+export const membershipsRelations = relations(memberships, ({ one }) => ({
+  user: one(users, {
+    fields: [memberships.userId],
+    references: [users.id],
+  }),
+  organization: one(organizations, {
+    fields: [memberships.orgId],
+    references: [organizations.id],
+  }),
+}));
+
+export const submissionsRelations = relations(submissions, ({ one }) => ({
+  user: one(users, {
+    fields: [submissions.userId],
+    references: [users.id],
+  }),
+}));

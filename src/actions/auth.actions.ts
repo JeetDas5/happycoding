@@ -49,7 +49,9 @@ export async function loginAction(formData: FormData) {
   try {
     console.log("Attempting login with:", { email, password });
     loginSchema.parse({ email, password });
+    console.log("Schema parsed successfully");
     const result = await login({ email, password });
+    console.log("Login successful:", result);
 
     // Set cookie
     const token = signToken({ userId: result.user.id });
