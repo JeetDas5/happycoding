@@ -10,13 +10,13 @@ import {
 } from "@/components/ui/card";
 import {
   Field,
-  FieldDescription,
-  FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Mail, Lock, Loader2, LogIn } from "lucide-react";
+import Link from "next/link";
 
 interface Props {
   action: (
@@ -46,55 +46,76 @@ export function LoginForm({ action }: Props) {
   }
 
   return (
-    <Card className="w-full">
-      <CardHeader className="space-y-2">
-        <CardTitle className="text-2xl">Welcome back</CardTitle>
+    <Card className="w-full border-none shadow-2xl shadow-primary/5 bg-card/50 backdrop-blur-sm">
+      <CardHeader className="space-y-1 pb-6">
+        <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
         <CardDescription>
           Sign in to your account to continue
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-4">
             <Field>
               <FieldLabel htmlFor="email">Email</FieldLabel>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="name@example.com"
-                required
-                disabled={loading}
-              />
+              <div className="relative group">
+                <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="name@example.com"
+                  className="pl-10 h-11"
+                  required
+                  disabled={loading}
+                />
+              </div>
             </Field>
             <Field>
-              <FieldLabel htmlFor="password">Password</FieldLabel>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                placeholder="Enter your password"
-                required
-                disabled={loading}
-              />
+              <div className="flex items-center justify-between">
+                <FieldLabel htmlFor="password">Password</FieldLabel>
+                <Link href="#" className="text-xs text-primary hover:underline font-medium">Forgot password?</Link>
+              </div>
+              <div className="relative group">
+                <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  className="pl-10 h-11"
+                  required
+                  disabled={loading}
+                />
+              </div>
             </Field>
           </div>
 
           {error && (
-            <div className="rounded-lg bg-destructive/10 px-4 py-3 text-sm text-destructive">
+            <div className="rounded-xl bg-destructive/10 px-4 py-3 text-sm text-destructive border border-destructive/20 animate-in fade-in zoom-in">
               {error}
             </div>
           )}
 
-          <Button type="submit" disabled={loading} className="w-full">
-            {loading ? "Signing in..." : "Sign in"}
+          <Button type="submit" disabled={loading} className="w-full h-11 rounded-xl text-base font-semibold shadow-lg shadow-primary/20">
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Signing in...
+              </>
+            ) : (
+              <>
+                <LogIn className="mr-2 h-4 w-4" />
+                Sign in
+              </>
+            )}
           </Button>
 
-          <div className="text-center text-sm">
+          <div className="text-center text-sm pt-2">
             <span className="text-muted-foreground">Don&apos;t have an account? </span>
-            <a href="/signup" className="font-medium text-primary hover:underline">
+            <Link href="/signup" className="font-semibold text-primary hover:underline">
               Sign up
-            </a>
+            </Link>
           </div>
         </form>
       </CardContent>
