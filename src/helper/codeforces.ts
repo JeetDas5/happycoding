@@ -4,6 +4,8 @@ import { submissions, users } from "@/db/schema";
 import axios from "axios";
 import { and, eq, sql } from "drizzle-orm";
 import { calculatePoints } from "./scoring";
+import { getUser } from "./auth";
+import { syncUser } from "./sync";
 
 export async function fetchProblems() {
   const res = await axios.get("https://codeforces.com/api/problemset.problems");
@@ -91,4 +93,9 @@ export async function getTodayProblem() {
 
 export function getProblemURL(problem: any) {
   return `https://codeforces.com/problemset/problem/${problem.contestId}/${problem.index}`;
+}
+
+export async function manualSync(userId: string) {
+  const user = await getUser(userId);
+  await syncUser(user);
 }
