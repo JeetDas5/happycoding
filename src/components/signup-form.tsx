@@ -8,16 +8,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Field,
-  FieldDescription,
-  FieldLabel,
-} from "@/components/ui/field";
+import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { User, Mail, Lock, Loader2, UserPlus } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 interface Props {
   action: (
@@ -27,21 +23,28 @@ interface Props {
 
 export function SignupForm({ action }: Props) {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
-    setError("");
+
+    if (
+      e.currentTarget.password.value !== e.currentTarget.confirmPassword.value
+    ) {
+      setLoading(false);
+      toast.error("Passwords do not match");
+      return;
+    }
 
     const formData = new FormData(e.currentTarget);
     const result = await action(formData);
 
     if (result.error) {
-      setError(result.error);
+      toast.error(result.error || "Signup failed");
     } else {
-      router.push("/verify-email");
+      toast.success(
+        "Account created successfully! Check your email to verify your account.",
+      );
     }
     setLoading(false);
   }
@@ -53,7 +56,7 @@ export function SignupForm({ action }: Props) {
         <CardDescription>Get started with Happy Coding today</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 mb-2">
           <div className="space-y-4">
             <Field>
               <FieldLabel htmlFor="name">Full Name</FieldLabel>
@@ -122,13 +125,11 @@ export function SignupForm({ action }: Props) {
             </div>
           </div>
 
-          {error && (
-            <div className="rounded-xl bg-destructive/10 px-4 py-3 text-sm text-destructive border border-destructive/20 animate-in fade-in zoom-in">
-              {error}
-            </div>
-          )}
-
-          <Button type="submit" disabled={loading} className="w-full h-11 rounded-xl text-base font-semibold shadow-lg shadow-primary/20">
+          <Button
+            type="submit"
+            disabled={loading}
+            className="w-full h-11 rounded-xl text-base font-semibold shadow-lg shadow-primary/20"
+          >
             {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -143,8 +144,13 @@ export function SignupForm({ action }: Props) {
           </Button>
 
           <div className="text-center text-sm pt-2">
-            <span className="text-muted-foreground">Already have an account? </span>
-            <Link href="/login" className="font-semibold text-primary hover:underline">
+            <span className="text-muted-foreground">
+              Already have an account?{" "}
+            </span>
+            <Link
+              href="/login"
+              className="font-semibold text-primary hover:underline"
+            >
               Sign in
             </Link>
           </div>

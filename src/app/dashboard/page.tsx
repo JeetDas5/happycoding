@@ -35,6 +35,15 @@ export default async function DashboardPage() {
     recentSubmissions,
   } = data;
 
+  const difficulty = todayProblem?.rating
+    ? todayProblem.rating < 1000
+      ? "easy"
+      : todayProblem.rating < 1200
+        ? "medium"
+        : "hard"
+    : "medium";
+  console.log("Today's problem difficulty: ", difficulty);
+
   const rank =
     globalLeaderboard.findIndex((u: { id: string }) => u.id === user?.id) + 1;
   const difficultyColor: Record<string, string> = {
@@ -45,11 +54,10 @@ export default async function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Top Nav */}
       <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="text-xl font-bold tracking-tight">
-            happy<span className="text-primary">coding</span>
+            Happy<span className="text-primary">Coding</span>
           </Link>
           <div className="flex items-center gap-3">
             <SyncButton />
@@ -67,7 +75,10 @@ export default async function DashboardPage() {
               size="sm"
               className="gap-2 text-muted-foreground"
             >
-              <Link href="/api/auth/logout">
+              <Link
+                href="/api/auth/logout"
+                className="flex flex-row gap-1 justify-center items-center"
+              >
                 <LogOut className="w-4 h-4" />
                 <span className="hidden sm:block">Logout</span>
               </Link>
@@ -76,8 +87,7 @@ export default async function DashboardPage() {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 space-y-8">
-        {/* Welcome + Stats Row */}
+      <main className="container mx-auto px-4 pt-4 pb-8 space-y-6">
         <div>
           <h1 className="text-2xl font-bold mb-1">
             Welcome back, {user?.name?.split(" ")[0]}! 👋
@@ -87,7 +97,6 @@ export default async function DashboardPage() {
           </p>
         </div>
 
-        {/* Stat Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <StatCard
             icon={<Flame className="w-5 h-5 text-orange-500" />}
@@ -115,7 +124,7 @@ export default async function DashboardPage() {
             label="Problems Solved"
             value={`${
               recentSubmissions.filter(
-                (s) => s.status === "solved" || s.verdict === "OK"
+                (s) => s.status === "solved" || s.verdict === "OK",
               ).length
             }`}
             sub="recent"
@@ -123,12 +132,9 @@ export default async function DashboardPage() {
           />
         </div>
 
-        {/* Main Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Today's Problem */}
-            <Card>
+            <Card className="py-2">
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-base font-semibold flex items-center gap-2">
@@ -138,14 +144,11 @@ export default async function DashboardPage() {
                   {todayProblem && (
                     <span
                       className={`text-xs font-medium capitalize px-2 py-0.5 rounded-full bg-muted ${
-                        difficultyColor[
-                          (todayProblem as { difficulty?: string })
-                            ?.difficulty || ""
-                        ] || "text-muted-foreground"
+                        difficultyColor[difficulty || ""] ||
+                        "text-muted-foreground"
                       }`}
                     >
-                      {(todayProblem as { difficulty?: string })?.difficulty ||
-                        "Mixed"}
+                      {difficulty || "Mixed"}
                     </span>
                   )}
                 </div>
@@ -208,15 +211,16 @@ export default async function DashboardPage() {
                       </div>
                     )}
                     <div className="flex items-center gap-3 pt-2">
-                      <Button className="gap-2">
-                        <a
+                      <Button className=" gap-2 px-2 py-4">
+                        <Link
                           href={todayProblemUrl || "#"}
                           target="_blank"
                           rel="noopener noreferrer"
+                          className="flex flex-row justify-center items-center gap-2"
                         >
                           <ExternalLink className="w-4 h-4" />
-                          Solve on Codeforces
-                        </a>
+                          <span>Solve on Codeforces</span>
+                        </Link>
                       </Button>
                       {!user?.cfVerified && (
                         <p className="text-xs text-muted-foreground">
@@ -238,8 +242,8 @@ export default async function DashboardPage() {
             </Card>
 
             {/* Codeforces Integration */}
-            <Card>
-              <CardHeader className="pb-3">
+            <Card className="py-2">
+              <CardHeader className="pb-2">
                 <CardTitle className="text-base font-semibold">
                   Codeforces Integration
                 </CardTitle>
@@ -332,7 +336,7 @@ export default async function DashboardPage() {
                         points: number | null;
                         streak: number | null;
                       },
-                      idx: number
+                      idx: number,
                     ) => (
                       <div
                         key={u.id}
@@ -345,10 +349,10 @@ export default async function DashboardPage() {
                             idx === 0
                               ? "text-yellow-500"
                               : idx === 1
-                              ? "text-zinc-400"
-                              : idx === 2
-                              ? "text-orange-500"
-                              : "text-muted-foreground"
+                                ? "text-zinc-400"
+                                : idx === 2
+                                  ? "text-orange-500"
+                                  : "text-muted-foreground"
                           }`}
                         >
                           {idx + 1}
@@ -373,7 +377,7 @@ export default async function DashboardPage() {
                           </p>
                         </div>
                       </div>
-                    )
+                    ),
                   )}
                   {globalLeaderboard.length === 0 && (
                     <p className="text-center text-sm text-muted-foreground py-6">
@@ -385,7 +389,7 @@ export default async function DashboardPage() {
             </Card>
 
             {/* Organizations */}
-            <Card>
+            <Card className="py-2">
               <CardHeader className="pb-3">
                 <CardTitle className="text-base font-semibold flex items-center gap-2">
                   <Building2 className="w-4 h-4 text-primary" />
@@ -422,7 +426,7 @@ export default async function DashboardPage() {
                             <CopyButton text={m.organization.inviteCode} />
                           </div>
                         </div>
-                      )
+                      ),
                     )}
                   </div>
                 )}

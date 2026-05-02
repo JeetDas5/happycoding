@@ -9,7 +9,6 @@ export default function Home() {
       <Navbar />
 
       <main className="flex-1">
-        {/* Hero Section */}
         <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden hero-gradient">
           <div className="container px-4 mx-auto relative z-10">
             <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
@@ -18,13 +17,12 @@ export default function Home() {
                 <span>Next generation coding platform</span>
               </div>
               <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                Code faster, <span className="text-primary">happier</span>, and
-                smarter than ever
+                Build <span className="text-primary">Consistency</span>, and
+                Climb the Leaderboard
               </h1>
               <p className="text-xl text-muted-foreground mb-10 max-w-2xl animate-in fade-in slide-in-from-bottom-5 duration-700">
-                The ultimate platform for modern developers. Build, deploy, and
-                scale your applications with confidence using our
-                state-of-the-art tools.
+                Daily Codeforces challenges, streaks, and leaderboards that push
+                you ahead of everyone else
               </p>
               <div className="flex flex-col sm:flex-row gap-4 animate-in fade-in slide-in-from-bottom-6 duration-1000">
                 <Button size="lg" className="h-12 px-8 text-lg rounded-xl">
@@ -41,14 +39,12 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Hero Decorative Elements */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none -z-10">
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[128px]" />
             <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-violet-500/20 rounded-full blur-[128px]" />
           </div>
         </section>
 
-        {/* Features Section */}
         <section id="features" className="py-24 bg-secondary/30">
           <div className="container px-4 mx-auto">
             <div className="text-center max-w-3xl mx-auto mb-16">
@@ -81,17 +77,16 @@ export default function Home() {
           </div>
         </section>
 
-        {/* CTA Section */}
         <section className="py-24">
           <div className="container px-4 mx-auto">
             <div className="bg-primary rounded-3xl p-8 md:p-16 text-primary-foreground relative overflow-hidden">
               <div className="relative z-10 max-w-3xl">
                 <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                  Ready to transform your workflow?
+                  Ready to compete for the top?
                 </h2>
                 <p className="text-primary-foreground/80 text-xl mb-10">
-                  Join thousands of developers who are already using happycoding
-                  to build the future.
+                  Join developers who are solving daily, building streaks, and
+                  climbing the leaderboard.
                 </p>
                 <Button
                   size="lg"
@@ -102,7 +97,6 @@ export default function Home() {
                 </Button>
               </div>
 
-              {/* Decorative Circle */}
               <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
               <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-black/10 rounded-full blur-3xl" />
             </div>
@@ -113,7 +107,7 @@ export default function Home() {
       <footer className="py-12 border-t">
         <div className="container px-4 mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="text-xl font-bold tracking-tight">
-            happy<span className="text-primary">coding</span>
+            Happy<span className="text-primary">Coding</span>
           </div>
           <div className="flex gap-8 text-sm text-muted-foreground">
             <Link href="#" className="hover:text-foreground transition-colors">
@@ -127,7 +121,7 @@ export default function Home() {
             </Link>
           </div>
           <div className="text-sm text-muted-foreground">
-            © 2026 happycoding. All rights reserved.
+            © 2026 HappyCoding. All rights reserved.
           </div>
         </div>
       </footer>

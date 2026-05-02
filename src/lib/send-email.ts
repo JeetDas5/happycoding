@@ -7,6 +7,9 @@ interface Props{
 
 export const sendMail = async ({ to, subject, html }: Props) => {
   console.log("Inside send email fn");
+  console.log("Sending email to ",to)
+  console.log("Sending email with subject ",subject)
+
   const res = await fetch("https://api.unosend.co/v1/emails", {
     method: "POST",
     headers: {

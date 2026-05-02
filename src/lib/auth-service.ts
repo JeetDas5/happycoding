@@ -1,6 +1,7 @@
 import db from "@/db";
 import { verificationTokens, users } from "@/db/schema";
 import { sendMail } from "@/lib/send-email";
+import { generateTokenEmail } from "@/templates/token-email";
 import argon2 from "argon2";
 import { eq, and, gt } from "drizzle-orm";
 import crypto from "crypto";
@@ -36,16 +37,17 @@ export async function initiateSignup(data: {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
   const verificationUrl = `${baseUrl}/verify-email?token=${token}`;
 
+  const emailHtml = generateTokenEmail({
+    name,
+    token,
+    verificationUrl,
+    expiresIn: "1 hour",
+  });
+
   await sendMail({
     to: email,
-    subject: "Verify your email",
-    html: `
-            <h1>Welcome to HappyCoding!</h1>
-            <p>Hi ${name},</p>
-            <p>Please verify your email by clicking the link below:</p>
-            <a href="${verificationUrl}">${verificationUrl}</a>
-            <p>This link expires in 1 hour.</p>
-        `,
+    subject: "Verify your email - HappyCoding",
+    html: emailHtml,
   });
 
   return { success: true, message: "Verification email sent" };

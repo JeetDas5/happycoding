@@ -8,15 +8,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Field,
-  FieldLabel,
-} from "@/components/ui/field";
+import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Mail, Lock, Loader2, LogIn } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 interface Props {
   action: (
@@ -26,20 +24,25 @@ interface Props {
 
 export function LoginForm({ action }: Props) {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
-    setError("");
+
+    if (e.currentTarget.password.value.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      setLoading(false);
+      return;
+    }
 
     const formData = new FormData(e.currentTarget);
     const result = await action(formData);
 
     if (result.error) {
-      setError(result.error);
+      toast.error(result.error || "Login failed");
     } else {
+      toast.success("Logged in successfully!");
       router.push("/dashboard");
     }
     setLoading(false);
@@ -49,12 +52,10 @@ export function LoginForm({ action }: Props) {
     <Card className="w-full border-none shadow-2xl shadow-primary/5 bg-card/50 backdrop-blur-sm">
       <CardHeader className="space-y-1 pb-6">
         <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
-        <CardDescription>
-          Sign in to your account to continue
-        </CardDescription>
+        <CardDescription>Sign in to your account to continue</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 mb-2">
           <div className="space-y-4">
             <Field>
               <FieldLabel htmlFor="email">Email</FieldLabel>
@@ -74,7 +75,12 @@ export function LoginForm({ action }: Props) {
             <Field>
               <div className="flex items-center justify-between">
                 <FieldLabel htmlFor="password">Password</FieldLabel>
-                <Link href="#" className="text-xs text-primary hover:underline font-medium">Forgot password?</Link>
+                <Link
+                  href="#"
+                  className="text-xs text-primary hover:underline font-medium"
+                >
+                  Forgot password?
+                </Link>
               </div>
               <div className="relative group">
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
@@ -91,13 +97,11 @@ export function LoginForm({ action }: Props) {
             </Field>
           </div>
 
-          {error && (
-            <div className="rounded-xl bg-destructive/10 px-4 py-3 text-sm text-destructive border border-destructive/20 animate-in fade-in zoom-in">
-              {error}
-            </div>
-          )}
-
-          <Button type="submit" disabled={loading} className="w-full h-11 rounded-xl text-base font-semibold shadow-lg shadow-primary/20">
+          <Button
+            type="submit"
+            disabled={loading}
+            className="w-full h-11 rounded-xl text-base font-semibold shadow-lg shadow-primary/20"
+          >
             {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -112,8 +116,13 @@ export function LoginForm({ action }: Props) {
           </Button>
 
           <div className="text-center text-sm pt-2">
-            <span className="text-muted-foreground">Don&apos;t have an account? </span>
-            <Link href="/signup" className="font-semibold text-primary hover:underline">
+            <span className="text-muted-foreground">
+              Don&apos;t have an account?{" "}
+            </span>
+            <Link
+              href="/signup"
+              className="font-semibold text-primary hover:underline"
+            >
               Sign up
             </Link>
           </div>

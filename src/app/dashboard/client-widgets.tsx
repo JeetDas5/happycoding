@@ -12,6 +12,7 @@ import {
   handleJoinOrg,
 } from "./actions";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface CFWidgetProps {
   cfHandle: string | null | undefined;
@@ -106,8 +107,15 @@ export function CFWidget({
             </p>
             <p className="text-muted-foreground text-xs">
               Go to{" "}
-              <span className="font-mono text-primary">codeforces.com</span>,
-              submit any problem, then click Verify below.
+              <Link
+                href="https://codeforces.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-primary"
+              >
+                codeforces.com
+              </Link>
+              , submit any problem, then click Verify below.
             </p>
           </div>
           <div className="flex gap-2">
@@ -129,11 +137,7 @@ export function CFWidget({
           </div>
         </div>
       )}
-      {message && (
-        <p className="text-xs text-muted-foreground">
-          {message}
-        </p>
-      )}
+      {message && <p className="text-xs text-muted-foreground">{message}</p>}
     </div>
   );
 }

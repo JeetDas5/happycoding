@@ -6,7 +6,7 @@ import { ChevronLeft } from "lucide-react";
 export default function Page() {
   return (
     <div className="relative min-h-screen flex items-center justify-center p-4 overflow-hidden bg-background">
-      {/* Background Decor */}
+     
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px]" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-violet-500/10 rounded-full blur-[120px]" />
@@ -27,7 +27,7 @@ export default function Page() {
       <div className="w-full max-w-lg animate-in fade-in zoom-in duration-500">
         <div className="text-center mb-8">
           <Link href="/" className="text-3xl font-bold tracking-tight inline-block mb-2">
-            happy<span className="text-primary">coding</span>
+            Happy<span className="text-primary">Coding</span>
           </Link>
           <p className="text-muted-foreground">Join our community of developers today</p>
         </div>
