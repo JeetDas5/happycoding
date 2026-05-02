@@ -2,7 +2,7 @@
 import db from "@/db";
 import { submissions, users } from "@/db/schema";
 import axios from "axios";
-import { and, eq, sql } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 import { calculatePoints } from "./scoring";
 import { getUser } from "./auth";
 import { syncUser } from "./sync";
@@ -98,4 +98,13 @@ export function getProblemURL(problem: any) {
 export async function manualSync(userId: string) {
   const user = await getUser(userId);
   await syncUser(user);
+}
+
+export async function getRecentSubmissions(userId: string, limit: number = 5) {
+  const userSubmissions = await db.query.submissions.findMany({
+    where: eq(submissions.userId, userId),
+    orderBy: desc(submissions.submittedAt),
+    limit,
+  });
+  return userSubmissions;
 }
