@@ -86,19 +86,7 @@ export async function getGlobalLeaderboard() {
   return await db.select().from(users).orderBy(desc(users.points)).limit(100);
 }
 
-export function getProblemURL(problem: any) {
-  return `https://codeforces.com/problemset/problem/${problem.contestId}/${problem.index}`;
-}
 
-export async function getTodayProblem() {
-  const today = new Date().toISOString().split("T")[0];
 
-  return await db.query.dailyProblems.findFirst({
-    where: (d, { eq }) => eq(d.date, today),
-    with: {
-      problem: true,
-    },
-  });
-}
 
 

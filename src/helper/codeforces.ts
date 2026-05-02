@@ -12,7 +12,6 @@ export async function fetchProblems() {
   return data.result.problems;
 }
 
-
 export async function getUserSubmissions(handle: string, count: number = 10) {
   const res = await axios.get(
     `https://codeforces.com/api/user.status?handle=${handle}&count=${count}`,
@@ -74,10 +73,22 @@ export async function markSolved(userId: string, problemId: string) {
 export async function getTodayProblem() {
   const today = new Date().toISOString().split("T")[0];
 
-  return await db.query.dailyProblems.findFirst({
+  const todayRecord = await db.query.dailyProblems.findFirst({
     where: (d, { eq }) => eq(d.date, today),
-    with: {
-      problem: true,
-    },
   });
+  if (!todayRecord) {
+    return null;
+  }
+
+  const problem = await getProblem(todayRecord.problemId);
+
+  if (!problem) {
+    return null;
+  }
+
+  return problem;
+}
+
+export function getProblemURL(problem: any) {
+  return `https://codeforces.com/problemset/problem/${problem.contestId}/${problem.index}`;
 }

@@ -46,7 +46,7 @@ export async function verifyCF(userId: string) {
   if (solved) {
     await db
       .update(users)
-      .set({ cfVerified: true })
+      .set({ cfVerified: true, cfVerificationStartedAt: null })
       .where(eq(users.id, user.id));
 
     return { success: true };
@@ -54,3 +54,18 @@ export async function verifyCF(userId: string) {
 
   return { success: false, message: "No valid submission found" };
 }
+
+export async function findAcceptedSubmission(
+  subs: any[],
+  problemId: string,
+  startTime: any,
+) {
+  return subs.find(
+    (sub) =>
+      sub.verdict === "OK" &&
+      `${sub.problem.contestId}${sub.problem.index}` === problemId &&
+      sub.creationTimeSeconds * 1000 > startTime,
+  );
+}
+
+

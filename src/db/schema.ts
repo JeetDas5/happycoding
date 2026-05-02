@@ -18,6 +18,7 @@ export const users = pgTable("users", {
   cfVerified: boolean("cf_verified").default(false),
   cfVerificationStartedAt: timestamp("cf_verification_started_at"),
 
+  lastSolvedDate: timestamp("last_solved_date"),
   points: integer("points").default(0),
   streak: integer("streak").default(0),
 
@@ -91,11 +92,21 @@ export const dailyProblems = pgTable(
   ],
 );
 
-export const submissions = pgTable("submissions", {
-  id: uuid("id").defaultRandom().primaryKey(),
-  userId: uuid("user_id").notNull(),
-  problemId: text("problem_id").notNull(),
-  status: text("status").notNull(), // "AC", "WA", "TLE", etc.
-  submittedAt: timestamp("submitted_at").defaultNow(),
-  pointsAwarded: integer("points_awarded").default(0),
-});
+export const submissions = pgTable(
+  "submissions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    userId: uuid("user_id").notNull(),
+    problemId: text("problem_id").notNull(),
+    status: text("status").notNull().default("unsolved"), // "solved" | "attempted" | "unsolved"
+    verdict: text("verdict"), // OK
+    cfSubmissionId: integer("cf_submission_id"),
+    submittedAt: timestamp("submitted_at").defaultNow(),
+    pointsAwarded: integer("points_awarded").default(0),
+
+    createdAt: timestamp("created_at").defaultNow(),
+  },
+  (table) => [
+    uniqueIndex("unique_submission").on(table.userId, table.problemId),
+  ],
+);

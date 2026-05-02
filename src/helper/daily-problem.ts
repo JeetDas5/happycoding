@@ -13,8 +13,8 @@ export function getDifficultyForToday() {
 
 export function getRatingRange(level: string) {
   if (level === "easy") return [800, 1000];
-  if (level === "medium") return [1100, 1300];
-  if (level === "hard") return [1400, 1800];
+  if (level === "medium") return [1000, 1200];
+  if (level === "hard") return [1200, 1500];
   return [800, 1500];
 }
 
