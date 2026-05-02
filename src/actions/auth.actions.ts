@@ -47,6 +47,7 @@ export async function loginAction(formData: FormData) {
   const password = formData.get("password") as string;
 
   try {
+    console.log("Attempting login with:", { email, password });
     loginSchema.parse({ email, password });
     const result = await login({ email, password });
 
@@ -61,6 +62,7 @@ export async function loginAction(formData: FormData) {
 
     return { success: true };
   } catch (error) {
+    console.log("Login error:", error);
     if (error instanceof z.ZodError) {
       return { error: error.issues[0].message };
     } else if (error instanceof z.ZodError) {
