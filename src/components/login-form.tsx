@@ -76,7 +76,7 @@ export function LoginForm({ action }: Props) {
               <div className="flex items-center justify-between">
                 <FieldLabel htmlFor="password">Password</FieldLabel>
                 <Link
-                  href="#"
+                  href="/forgot-password"
                   className="text-xs text-primary hover:underline font-medium"
                 >
                   Forgot password?

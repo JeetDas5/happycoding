@@ -103,3 +103,82 @@ export async function login(data: { email: string; password: string }) {
   return { success: true, user };
 }
 
+export async function initiatePasswordReset(email: string) {
+  const user = await db.query.users.findFirst({
+    where: eq(users.email, email),
+  });
+
+  if (!user) {
+    // For security, do not reveal whether the email exists
+    return { success: true };
+  }
+
+  const token = crypto.randomBytes(32).toString("hex");
+  const expiresAt = new Date(Date.now() + 1000 * 60 * 60); // 1 hour
+
+  // Store a reset token; reuse verificationTokens table
+  await db.insert(verificationTokens).values({
+    name: user.name,
+    email: user.email,
+    password: user.password, // store current hashed password as placeholder
+    token,
+    expiresAt,
+  });
+
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+  const resetUrl = `${baseUrl}/reset-password?token=${token}`;
+
+  const emailHtml = generateTokenEmail({
+    name: user.name,
+    token,
+    verificationUrl: resetUrl,
+    expiresIn: "1 hour",
+  });
+
+  const response = await sendMail({
+    to: user.email,
+    subject: "Reset your password - HappyCoding",
+    html: emailHtml,
+  });
+
+  if (response.error) {
+    return { success: false, error: "Failed to send reset email" };
+  }
+
+  return {
+    success: true,
+    message: "If that email exists, a reset link was sent",
+  };
+}
+
+export async function resetPassword(token: string, newPassword: string) {
+  const pending = await db.query.verificationTokens.findFirst({
+    where: and(
+      eq(verificationTokens.token, token),
+      gt(verificationTokens.expiresAt, new Date()),
+    ),
+  });
+
+  if (!pending) {
+    throw new Error("Invalid or expired token");
+  }
+
+  const user = await db.query.users.findFirst({
+    where: eq(users.email, pending.email),
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const hashed = await argon2.hash(newPassword);
+
+  await db.update(users).set({ password: hashed }).where(eq(users.id, user.id));
+
+  // delete token
+  await db
+    .delete(verificationTokens)
+    .where(eq(verificationTokens.id, pending.id));
+
+  return { success: true };
+}

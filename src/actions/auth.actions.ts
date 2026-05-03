@@ -7,6 +7,8 @@ import {
   initiateSignup,
   verifyEmail as verifyEmailService,
   login,
+  initiatePasswordReset,
+  resetPassword,
 } from "@/lib/auth-service";
 import { signToken } from "@/lib/jwt";
 import { loginSchema, registerSchema } from "@/validations/auth.validations";
@@ -73,5 +75,35 @@ export async function loginAction(formData: FormData) {
       return { error: error.message || "Login failed" };
     }
     return { error: "Login failed" };
+  }
+}
+
+export async function requestPasswordResetAction(formData: FormData) {
+  const email = formData.get("email") as string;
+
+  try {
+    const result = await initiatePasswordReset(email);
+    return { success: true, message: result.message };
+  } catch (error) {
+    if (error instanceof Error) {
+      return { error: error.message || "Request failed" };
+    }
+    return { error: "Request failed" };
+  }
+}
+
+export async function resetPasswordAction(formData: FormData) {
+  const token = formData.get("token") as string;
+  const password = formData.get("password") as string;
+
+  try {
+    if (!token || !password) throw new Error("Missing token or password");
+    await resetPassword(token, password);
+    return { success: true };
+  } catch (error) {
+    if (error instanceof Error) {
+      return { error: error.message || "Reset failed" };
+    }
+    return { error: "Reset failed" };
   }
 }

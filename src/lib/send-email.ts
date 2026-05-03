@@ -26,5 +26,11 @@ export const sendMail = async ({ to, subject, html }: Props) => {
   const data = await res.json();
   console.log("Unosend response:", data);
   console.log("Status:", res.status);
+  if (!res.ok || (data && data.error)) {
+    const errMsg = data?.error || `Email provider responded with status ${res.status}`;
+    console.error("Failed to send email:", errMsg);
+    throw new Error(errMsg);
+  }
+
   return data;
 };
