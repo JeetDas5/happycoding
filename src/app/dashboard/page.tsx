@@ -42,7 +42,6 @@ export default async function DashboardPage() {
         ? "medium"
         : "hard"
     : "medium";
-  console.log("Today's problem difficulty: ", difficulty);
 
   const rank =
     globalLeaderboard.findIndex((u: { id: string }) => u.id === user?.id) + 1;

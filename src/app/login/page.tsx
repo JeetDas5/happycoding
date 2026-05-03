@@ -1,9 +1,35 @@
+"use client";
+
 import { loginAction } from "@/actions/auth.actions";
 import { LoginForm } from "@/components/login-form";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import { useJwtSession } from "@/lib/use-jwt-session";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Page() {
+  const { data: session, isPending } = useJwtSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session?.user && !isPending) {
+      router.push("/dashboard");
+    }
+  }, [session, isPending, router]);
+
+  if (isPending) {
+    return (
+      <div className="relative min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+      </div>
+    );
+  }
+
+  if (session?.user) {
+    return null;
+  }
+
   return (
     <div className="relative min-h-screen flex items-center justify-center p-4 overflow-hidden bg-background">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10">
