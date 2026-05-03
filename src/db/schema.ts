@@ -62,12 +62,14 @@ export const verificationTokens = pgTable("verification_tokens", {
 
 export const problems = pgTable("problems", {
   id: text("id").primaryKey(), // "1791A"
-  contestId: integer("contest_id").notNull(),
+  contestId: integer("contest_id"),
   index: text("index").notNull(),
 
   name: text("name").notNull(),
+  type: text("type").notNull().default("PROGRAMMING"), // PROGRAMMING | QUESTION
+  points: integer("points"),
   rating: integer("rating"),
-  tags: text("tags").array(),
+  tags: text("tags").array().default([]),
 
   solvedCount: integer("solved_count"),
 

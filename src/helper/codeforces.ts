@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import db from "@/db";
 import { submissions, users } from "@/db/schema";
 import axios from "axios";
@@ -6,24 +5,37 @@ import { and, desc, eq, sql } from "drizzle-orm";
 import { calculatePoints } from "./scoring";
 import { getUser } from "./auth";
 import { syncUser } from "./sync";
+import type {
+  CodeforcesProblem,
+  CodeforcesProblemsetResponse,
+  CodeforcesSubmission,
+} from "@/types/codeforces";
 
-export async function fetchProblems() {
-  const res = await axios.get("https://codeforces.com/api/problemset.problems");
-  const data = await res.data;
+export async function fetchProblems(): Promise<CodeforcesProblem[]> {
+  const res = await axios.get<CodeforcesProblemsetResponse>(
+    "https://codeforces.com/api/problemset.problems",
+  );
+  const data = res.data;
 
   return data.result.problems;
 }
 
-export async function getUserSubmissions(handle: string, count: number = 10) {
-  const res = await axios.get(
+export async function getUserSubmissions(
+  handle: string,
+  count: number = 10,
+): Promise<CodeforcesSubmission[]> {
+  const res = await axios.get<{ status: string; result: CodeforcesSubmission[] }>(
     `https://codeforces.com/api/user.status?handle=${handle}&count=${count}`,
   );
-  const data = await res.data;
+  const data = res.data;
 
   return data.result;
 }
 
-export function hasSolved(submissions: any[], problemId: string | number) {
+export function hasSolved(
+  submissions: CodeforcesSubmission[],
+  problemId: string | number,
+): boolean {
   return submissions.some(
     (sub) =>
       `${sub.problem.contestId}${sub.problem.index}` === problemId &&
@@ -31,18 +43,18 @@ export function hasSolved(submissions: any[], problemId: string | number) {
   );
 }
 
-export async function getProblem(problemId: string) {
+export async function getProblem(problemId: string): Promise<CodeforcesProblem | undefined> {
   const index = problemId[problemId.length - 1];
   const contestId = problemId.slice(0, -1);
 
   const problems = await fetchProblems();
 
   return problems.find(
-    (p: any) => p.contestId === parseInt(contestId) && p.index === index,
+    (p) => p.contestId === parseInt(contestId) && p.index === index,
   );
 }
 
-export async function markSolved(userId: string, problemId: string) {
+export async function markSolved(userId: string, problemId: string): Promise<void> {
   const alreadySubmitted = await db.query.submissions.findFirst({
     where: and(
       eq(submissions.userId, userId),
@@ -53,6 +65,7 @@ export async function markSolved(userId: string, problemId: string) {
   if (alreadySubmitted) return;
 
   const problem = await getProblem(problemId);
+  if (!problem) return;
 
   const points = calculatePoints(problem.rating || problem.points || 0);
 
@@ -72,7 +85,7 @@ export async function markSolved(userId: string, problemId: string) {
     .where(eq(users.id, userId));
 }
 
-export async function getTodayProblem() {
+export async function getTodayProblem(): Promise<CodeforcesProblem | null> {
   const today = new Date().toISOString().split("T")[0];
 
   const todayRecord = await db.query.dailyProblems.findFirst({
@@ -91,12 +104,13 @@ export async function getTodayProblem() {
   return problem;
 }
 
-export function getProblemURL(problem: any) {
+export function getProblemURL(problem: CodeforcesProblem): string {
   return `https://codeforces.com/problemset/problem/${problem.contestId}/${problem.index}`;
 }
 
-export async function manualSync(userId: string) {
+export async function manualSync(userId: string): Promise<void> {
   const user = await getUser(userId);
+  if(!user || !user.cfVerified) return;
   await syncUser(user);
 }
 

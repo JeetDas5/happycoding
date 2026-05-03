@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import db from "@/db";
@@ -6,8 +5,9 @@ import { users } from "@/db/schema";
 import { getUser, getUserSubmissions } from "@/helper";
 
 import { eq } from "drizzle-orm";
+import type { CodeforcesSubmission } from "@/types/codeforces";
 
-export async function startCFVerification(userId: string, handle: string) {
+export async function startCFVerification(userId: string, handle: string): Promise<{ success: boolean }> {
   await db
     .update(users)
     .set({
@@ -20,7 +20,7 @@ export async function startCFVerification(userId: string, handle: string) {
   return { success: true };
 }
 
-export async function verifyCF(userId: string) {
+export async function verifyCF(userId: string): Promise<boolean> {
   const user = await getUser(userId);
   if (!user || !user.cfHandle || !user.cfVerificationStartedAt) {
     return false;
@@ -30,7 +30,7 @@ export async function verifyCF(userId: string) {
   const startTime = new Date(user.cfVerificationStartedAt).getTime() / 1000;
 
   const solved = submissions.find(
-    (sub: any) => sub.verdict === "OK" && sub.creationTimeSeconds > startTime,
+    (sub: CodeforcesSubmission) => sub.verdict === "OK" && sub.creationTimeSeconds > startTime,
   );
 
   if (solved) {

@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import db from "@/db";
+import type { CodeforcesProblem } from "@/types/codeforces";
 
 export function getDifficultyForToday() {
   const day = new Date().getDay();

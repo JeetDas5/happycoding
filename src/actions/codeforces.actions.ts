@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
 import db from "@/db";
@@ -6,8 +5,9 @@ import { users } from "@/db/schema";
 import { getUserSubmissions } from "@/helper";
 
 import { eq } from "drizzle-orm";
+import type { CodeforcesSubmission } from "@/types/codeforces";
 
-export async function startCFVerification(userId: string, handle: string) {
+export async function startCFVerification(userId: string, handle: string): Promise<{ success: boolean }> {
   await db
     .update(users)
     .set({
@@ -20,7 +20,7 @@ export async function startCFVerification(userId: string, handle: string) {
   return { success: true };
 }
 
-export async function verifyCF(userId: string) {
+export async function verifyCF(userId: string): Promise<{ success: boolean; message?: string }> {
   const user = await db.query.users.findFirst({
     where: eq(users.id, userId),
   });
@@ -40,7 +40,7 @@ export async function verifyCF(userId: string) {
   const startTime = new Date(user.cfVerificationStartedAt).getTime() / 1000;
 
   const solved = submissions.find(
-    (sub: any) => sub.verdict === "OK" && sub.creationTimeSeconds > startTime,
+    (sub) => sub.verdict === "OK" && sub.creationTimeSeconds > startTime,
   );
 
   if (solved) {
@@ -56,10 +56,10 @@ export async function verifyCF(userId: string) {
 }
 
 export async function findAcceptedSubmission(
-  subs: any[],
+  subs: CodeforcesSubmission[],
   problemId: string,
-  startTime: any,
-) {
+  startTime: number,
+): Promise<CodeforcesSubmission | undefined> {
   return subs.find(
     (sub) =>
       sub.verdict === "OK" &&

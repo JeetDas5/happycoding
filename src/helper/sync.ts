@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import db from "@/db";
 import { getTodayProblem, getUserSubmissions } from "./codeforces";
 import { findAcceptedSubmission } from "@/actions/codeforces.actions";
@@ -7,12 +6,20 @@ import { submissions, users } from "@/db/schema";
 import { eq, sql } from "drizzle-orm";
 import { updateStreak } from "@/actions/streak.actions";
 
-export async function syncUser(user: any) {
+interface User {
+  id: string;
+  cfHandle: string | null;
+  cfVerified: boolean | null;
+}
+
+export async function syncUser(user: User): Promise<void> {
   if (!user.cfHandle || !user.cfVerified) return;
 
   const userSubmissions = await getUserSubmissions(user.cfHandle);
 
   const todayProblem = await getTodayProblem();
+
+  if(!todayProblem) return;
 
   const problemId = todayProblem?.contestId + todayProblem?.index;
   if (!problemId) return;
@@ -41,7 +48,7 @@ export async function syncUser(user: any) {
 
   if (!problem) return;
 
-  const points = calculatePoints(problem.rating);
+  const points = calculatePoints(problem.rating || 0);
 
   // save submission
   await db.insert(submissions).values({
