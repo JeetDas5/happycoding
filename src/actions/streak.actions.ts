@@ -6,7 +6,7 @@ import { eq } from "drizzle-orm";
 export async function updateStreak(userId: string) {
   const user = await getUser(userId);
 
-  if(!user || !user.lastSolvedDate || !user.streak) return;
+  if(!user) return;
 
   const today = new Date();
   const todayDate = today.toISOString().split("T")[0];
@@ -24,11 +24,11 @@ export async function updateStreak(userId: string) {
 
     if (lastDate === todayDate) {
       // already counted today
-      return user.streak;
+      return user.streak ?? 0;
     }
 
     if (lastDate === yesterdayDate) {
-      newStreak = user.streak + 1;
+      newStreak = (user.streak ?? 0) + 1;
     }
   }
 
