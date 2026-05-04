@@ -5,7 +5,7 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const unauthRoutes = ["/login", "/signup"];
-  const protectedRoutes = ["/dashboard"];
+  const protectedRoutes = ["/dashboard", "/profile"];
 
   if (token && unauthRoutes.some((r) => pathname.startsWith(r))) {
     const url = request.nextUrl.clone();
@@ -23,5 +23,11 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login/:path*", "/signup/:path*", "/dashboard/:path*"],
+  matcher: [
+    "/",
+    "/login/:path*",
+    "/signup/:path*",
+    "/dashboard/:path*",
+    "/profile/:path*",
+  ],
 };

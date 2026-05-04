@@ -68,25 +68,38 @@ export default async function DashboardPage() {
           <div className="flex items-center gap-3">
             <SyncButton />
             <div className="h-6 w-px bg-border" />
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
-                {user?.name?.[0]?.toUpperCase()}
-              </div>
-              <span className="text-sm font-medium hidden sm:block">
-                {user?.name}
-              </span>
-            </div>
-            <form action={logoutAction}>
-              <Button
-                type="submit"
-                variant="ghost"
-                size="sm"
-                className="gap-2 text-muted-foreground"
+            <div className="relative group">
+              <button
+                type="button"
+                aria-haspopup="menu"
+                className="flex items-center gap-2 rounded-lg px-2 py-1 hover:bg-muted/60 focus:outline-none focus:ring-2 focus:ring-primary/30"
               >
-                <LogOut className="w-4 h-4" />
-                <span className="hidden sm:block">Logout</span>
-              </Button>
-            </form>
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
+                  {user?.name?.[0]?.toUpperCase()}
+                </div>
+                <span className="text-sm font-medium hidden sm:block">
+                  {user?.name}
+                </span>
+              </button>
+
+              <div className="pointer-events-none absolute right-0 top-[calc(100%+8px)] z-50 w-44 rounded-xl border bg-background p-1 shadow-lg opacity-0 translate-y-1 transition-all duration-150 group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:pointer-events-auto">
+                <Link
+                  href="/profile"
+                  className="flex w-full items-center rounded-md px-3 py-2 text-sm text-foreground hover:bg-muted"
+                >
+                  Profile
+                </Link>
+                <form action={logoutAction}>
+                  <button
+                    type="submit"
+                    className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground hover:bg-muted"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </header>

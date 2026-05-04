@@ -109,17 +109,6 @@ export default function Home() {
           <div className="text-xl font-bold tracking-tight">
             Happy<span className="text-primary">Coding</span>
           </div>
-          <div className="flex gap-8 text-sm text-muted-foreground">
-            <Link href="#" className="hover:text-foreground transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="#" className="hover:text-foreground transition-colors">
-              Terms of Service
-            </Link>
-            <Link href="#" className="hover:text-foreground transition-colors">
-              Contact Us
-            </Link>
-          </div>
           <div className="text-sm text-muted-foreground">
             © 2026 HappyCoding. All rights reserved.
           </div>
