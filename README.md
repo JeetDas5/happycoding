@@ -33,7 +33,7 @@ A full-stack web application built with Next.js that gamifies competitive progra
 - **Authentication**: Better Auth, JWT, Argon2
 - **UI Components**: shadcn, Lucide React, Base UI
 - **Styling**: Tailwind CSS, CSS Variables
-- **Email**: Custom HTML email templates
+- **Email**: Resend + custom HTML email templates
 - **Utilities**: Zod (validation), Axios, Nanoid
 
 ## Project Structure
@@ -179,6 +179,9 @@ JWT_SECRET=your-secret-key-here
 
 # Better Auth
 BETTER_AUTH_SECRET=your-secret
+
+# Email (Resend)
+RESEND_API_KEY=your-resend-api-key
 ```
 
 ## Database

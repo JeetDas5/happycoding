@@ -135,15 +135,11 @@ export async function initiatePasswordReset(email: string) {
     expiresIn: "1 hour",
   });
 
-  const response = await sendMail({
+  await sendMail({
     to: user.email,
     subject: "Reset your password - HappyCoding",
     html: emailHtml,
   });
-
-  if (response.error) {
-    return { success: false, error: "Failed to send reset email" };
-  }
 
   return {
     success: true,

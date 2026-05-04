@@ -152,10 +152,6 @@ export function generateTokenEmail({
       line-height: 1.6;
     }
     
-    .security-icon {
-      display: inline-block;
-      margin-right: 8px;
-    }
     
     .footer {
       background-color: #f9f9f9;
@@ -253,7 +249,6 @@ export function generateTokenEmail({
       
       <!-- Security Notice -->
       <div class="security-notice">
-        <span class="security-icon">🔒</span>
         <strong>Security Notice:</strong> If you didn't create this account, please ignore this email or contact our support team. Your account won't be created unless you click the verification link.
       </div>
       
@@ -272,9 +267,7 @@ export function generateTokenEmail({
     <!-- Footer -->
     <div class="footer">
       <div class="footer-links">
-        <a href="https://happycoding.app" class="footer-link">Website</a>
-        <a href="https://happycoding.app/privacy" class="footer-link">Privacy</a>
-        <a href="https://happycoding.app/terms" class="footer-link">Terms</a>
+        <a href="https://happycoding.jeetdas.site" class="footer-link">Website</a>
       </div>
       <p style="margin: 10px 0; color: #999999;">
         © ${new Date().getFullYear()} HappyCoding. All rights reserved.
