@@ -23,6 +23,11 @@ export async function getDashboardData() {
 
   const userId = session.user.id;
 
+  // Trigger sync automatically on dashboard load (replaces 5-min cron)
+  manualSync(userId).catch((err) => {
+    console.error("Dashboard auto-sync failed:", err);
+  });
+
   const [user, orgs, globalLeaderboard, todayProblem, recentSubmissions] =
     await Promise.all([
       getUser(userId),

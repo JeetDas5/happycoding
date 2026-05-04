@@ -215,8 +215,14 @@ npm run db:studio  # Open Drizzle Studio UI
 
 ### Cron Jobs
 
-- `GET /api/cron/generate-daily` - Generate daily problems
-- `GET /api/cron/sync` - Sync Codeforces data
+- `GET /api/cron/generate-daily` - Generate daily problems (runs daily at 00:05 UTC)
+
+### On-Demand Sync
+
+Codeforces submission sync is triggered on-demand via:
+- Dashboard page load (automatic)
+- "Sync Progress" button click (manual)
+- Server action `manualSync()` for custom integrations
 
 ## Available Scripts
 
