@@ -7,6 +7,7 @@ import {
 
 export async function GET() {
   const today = new Date().toISOString().split("T")[0];
+  const start = Date.now();
 
   const exists = await db.query.dailyProblems.findFirst({
     where: (d, { eq }) => eq(d.date, today),
@@ -28,6 +29,7 @@ export async function GET() {
     difficulty,
     problemLink,
   });
+  console.log(`[CRON] generate-daily completed in ${Date.now() - start}ms`);
 
   return Response.json({ success: true, problem });
 }
