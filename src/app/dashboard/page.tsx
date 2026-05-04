@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { cookies } from "next/headers";
 import {
   Trophy,
   Flame,
@@ -21,6 +22,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { getDashboardData } from "./actions";
 import { CFWidget, SyncButton, OrgWidget, CopyButton } from "./client-widgets";
+
+async function logoutAction() {
+  "use server";
+  (await cookies()).delete("session");
+  redirect("/");
+}
 
 export default async function DashboardPage() {
   const data = await getDashboardData();
@@ -69,19 +76,17 @@ export default async function DashboardPage() {
                 {user?.name}
               </span>
             </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="gap-2 text-muted-foreground"
-            >
-              <Link
-                href="/api/auth/logout"
-                className="flex flex-row gap-1 justify-center items-center"
+            <form action={logoutAction}>
+              <Button
+                type="submit"
+                variant="ghost"
+                size="sm"
+                className="gap-2 text-muted-foreground"
               >
                 <LogOut className="w-4 h-4" />
                 <span className="hidden sm:block">Logout</span>
-              </Link>
-            </Button>
+              </Button>
+            </form>
           </div>
         </div>
       </header>

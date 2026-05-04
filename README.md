@@ -210,7 +210,7 @@ npm run db:studio  # Open Drizzle Studio UI
 
 - `POST /api/auth/signup` - User registration
 - `POST /api/auth/login` - User login
-- `GET /api/auth/logout` - User logout
+- `POST /api/auth/logout` - User logout
 - `POST /api/auth/verify-email` - Verify email token
 
 ### Cron Jobs
