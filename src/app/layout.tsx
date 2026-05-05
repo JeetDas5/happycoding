@@ -58,6 +58,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${plusJakartaSans.variable} ${manrope.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
     >
       <body className={plusJakartaSans.className}>
         <ThemeProvider
