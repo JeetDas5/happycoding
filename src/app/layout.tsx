@@ -1,25 +1,51 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
-import "./globals.css";
-import { cn } from "@/lib/utils";
+import React from "react";
+import type { Metadata, Viewport } from "next";
+import { Plus_Jakarta_Sans, Manrope, JetBrains_Mono } from "next/font/google";
+import "../styles/tailwind.css";
 import { Toaster } from "@/components/ui/sonner";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-plus-jakarta-sans",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const manrope = Manrope({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-manrope",
+  display: "swap",
 });
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+});
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
-  title: "Happy Coding",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  ),
+  title: "HappyCoding — Compete, Track & Climb the Ranks",
   description:
-    "A platform to practice competitive programming problems and track your progress.",
+    "HappyCoding helps Codeforces users build daily streaks, earn points, and compete on leaderboards. Join 1,200+ competitive programmers today.",
+  icons: {
+    icon: [{ url: "/favicon.ico", type: "image/x-icon" }],
+  },
+  openGraph: {
+    title: "HappyCoding — Compete & Climb",
+    description:
+      "Daily streaks, point scoring, and leaderboards for Codeforces users.",
+    images: [{ url: "/assets/images/app_logo.png", width: 1200, height: 630 }],
+  },
 };
 
 export default function RootLayout({
@@ -30,17 +56,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn(
-        "h-full",
-        "antialiased",
-        geistSans.variable,
-        geistMono.variable,
-        "font-sans",
-        inter.variable,
-      )}
+      className={`${plusJakartaSans.variable} ${manrope.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="min-h-full flex flex-col">
-        {children} <Toaster position="bottom-right" duration={3000}/>
+      <body className={plusJakartaSans.className}>
+        {children}
+        <Toaster position="bottom-right" duration={3000} />
       </body>
     </html>
   );

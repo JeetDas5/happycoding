@@ -1,139 +1,53 @@
-import { Navbar } from "@/components/navbar";
-import { Button } from "@/components/ui/button";
-import { Code2, Rocket, ShieldCheck, Zap } from "lucide-react";
-import Link from "next/link";
+import HeroSection from "@/app/components/HeroSection";
+import FeaturesSection from "@/app/components/FeaturesSection";
+import HowItWorksSection from "@/app/components/HowItWorksSection";
+import CTASection from "@/app/components/CTASection";
+import SpotlightInit from "@/app/components/SpotlightInit";
+import ScrollAnimInit from "@/app/components/ScrollAnimInit";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
-export default function Home() {
+export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
+    <div className="relative min-h-screen bg-background overflow-x-hidden selection:bg-primary/30 selection:text-white">
+      <div
+        className="fixed inset-0 pointer-events-none z-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px)",
+          backgroundSize: "8rem 8rem",
+        }}
+      />
 
-      <main className="flex-1">
-        <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden hero-gradient">
-          <div className="container px-4 mx-auto relative z-10">
-            <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6 animate-in fade-in slide-in-from-bottom-3">
-                <Rocket className="w-4 h-4" />
-                <span>Next generation coding platform</span>
-              </div>
-              <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                Build <span className="text-primary">Consistency</span>, and
-                Climb the Leaderboard
-              </h1>
-              <p className="text-xl text-muted-foreground mb-10 max-w-2xl animate-in fade-in slide-in-from-bottom-5 duration-700">
-                Daily Codeforces challenges, streaks, and leaderboards that push
-                you ahead of everyone else
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 animate-in fade-in slide-in-from-bottom-6 duration-1000">
-                <Button size="lg" className="h-12 px-8 text-lg rounded-xl">
-                  <Link href="/signup">Get Started for Free</Link>
-                </Button>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="h-12 px-8 text-lg rounded-xl"
-                >
-                  <Link href="#features">View Features</Link>
-                </Button>
-              </div>
-            </div>
-          </div>
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-7xl h-200 bg-primary/10 rounded-full blur-[120px] pointer-events-none z-0" />
+      <div className="fixed top-1/3 right-0 w-120 h-120 bg-accent/5 rounded-full blur-[100px] pointer-events-none z-0" />
 
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none -z-10">
-            <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[128px]" />
-            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-violet-500/20 rounded-full blur-[128px]" />
-          </div>
-        </section>
+      {/* Falling beam lines */}
+      <div className="fixed inset-0 flex justify-between pointer-events-none z-0 px-6 md:px-24">
+        <div className="relative w-px h-full bg-white/2 overflow-hidden">
+          <div className="animate-beam absolute w-px h-32 bg-linear-to-b from-transparent via-accent/40 to-transparent" />
+        </div>
+        <div className="hidden md:block w-px h-full bg-white/2 overflow-hidden absolute left-1/2 -translate-x-1/2">
+          <div className="animate-beam-delay-1 absolute w-px h-32 bg-linear-to-b from-transparent via-accent/40 to-transparent" />
+        </div>
+        <div className="relative w-px h-full bg-white/2 overflow-hidden">
+          <div className="animate-beam-delay-2 absolute w-px h-32 bg-linear-to-b from-transparent via-accent/40 to-transparent" />
+        </div>
+      </div>
 
-        <section id="features" className="py-24 bg-secondary/30">
-          <div className="container px-4 mx-auto">
-            <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Master the Art of Competitive Programming
-              </h2>
-              <p className="text-muted-foreground text-lg">
-                The comprehensive platform designed to elevate your coding
-                journey with real-time tracking and community-driven growth.
-              </p>
-            </div>
+      <Header />
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <FeatureCard
-                icon={<Code2 className="w-8 h-8 text-primary" />}
-                title="Codeforces Verification"
-                description="Seamlessly link your Codeforces handle. Verify your skills with automated submission checks and track your rating progress."
-              />
-              <FeatureCard
-                icon={<Zap className="w-8 h-8 text-primary" />}
-                title="Coding Streaks"
-                description="Build consistency with our advanced streak tracking system. Stay motivated and never miss a day of improvement."
-              />
-              <FeatureCard
-                icon={<ShieldCheck className="w-8 h-8 text-primary" />}
-                title="Organizations"
-                description="Create or join coding communities. Compete in private leaderboards and grow alongside your peers and colleagues."
-              />
-            </div>
-          </div>
-        </section>
-
-        <section className="py-24">
-          <div className="container px-4 mx-auto">
-            <div className="bg-primary rounded-3xl p-8 md:p-16 text-primary-foreground relative overflow-hidden">
-              <div className="relative z-10 max-w-3xl">
-                <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                  Ready to compete for the top?
-                </h2>
-                <p className="text-primary-foreground/80 text-xl mb-10">
-                  Join developers who are solving daily, building streaks, and
-                  climbing the leaderboard.
-                </p>
-                <Button
-                  size="lg"
-                  variant="secondary"
-                  className="h-12 px-8 text-lg rounded-xl"
-                >
-                  <Link href="/signup">Start Your Journey Now</Link>
-                </Button>
-              </div>
-
-              <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
-              <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-black/10 rounded-full blur-3xl" />
-            </div>
-          </div>
-        </section>
+      <main className="relative z-10">
+        <HeroSection />
+        <FeaturesSection />
+        <HowItWorksSection />
+        <CTASection />
       </main>
 
-      <footer className="py-12 border-t">
-        <div className="container px-4 mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="text-xl font-bold tracking-tight">
-            Happy<span className="text-primary">Coding</span>
-          </div>
-          <div className="text-sm text-muted-foreground">
-            © 2026 HappyCoding. All rights reserved.
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
-}
+      <Footer />
 
-function FeatureCard({
-  icon,
-  title,
-  description,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}) {
-  return (
-    <div className="bg-card p-8 rounded-2xl border hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 group">
-      <div className="mb-6 p-3 rounded-xl bg-primary/5 w-fit group-hover:scale-110 transition-transform">
-        {icon}
-      </div>
-      <h3 className="text-xl font-bold mb-3">{title}</h3>
-      <p className="text-muted-foreground leading-relaxed">{description}</p>
+      <SpotlightInit />
+      <ScrollAnimInit />
     </div>
   );
 }

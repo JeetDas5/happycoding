@@ -167,7 +167,7 @@ export function SyncButton() {
         disabled={isPending}
         variant="outline"
         size="sm"
-        className="gap-2"
+        className="gap-2 cursor-pointer"
       >
         {isPending ? (
           <Loader2 className="w-4 h-4 animate-spin" />

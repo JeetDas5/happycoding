@@ -1,0 +1,233 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+:root {
+  --background: #030712;
+  --foreground: #F9FAFB;
+  --primary: #1D4ED8;
+  --primary-foreground: #FFFFFF;
+  --secondary: #0F172A;
+  --secondary-foreground: #E2E8F0;
+  --accent: #3B82F6;
+  --accent-foreground: #FFFFFF;
+  --muted: #1E293B;
+  --muted-foreground: #94A3B8;
+  --card: #0F172A;
+  --card-foreground: #F1F5F9;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: #1E293B;
+  --ring: #3B82F6;
+  --radius: 0.75rem;
+  --font-sans: var(--font-plus-jakarta-sans), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+  }
+}
+
+@layer utilities {
+  /* Spotlight card effect */
+  .spotlight-card {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+
+  .spotlight-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+      600px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+      rgba(59, 130, 246, 0.35),
+      transparent 40%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .spotlight-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(255, 255, 255, 0.03));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .spotlight-card:hover::before {
+    opacity: 1;
+  }
+
+  /* Glass card */
+  .glass-card {
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3), 0 20px 40px -10px rgba(0, 0, 0, 0.6);
+  }
+
+  .glass-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.12), transparent);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* Scrollbar */
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-style: none; }
+}
+
+/* ── Keyframe Animations ── */
+
+@keyframes animationIn {
+  0% {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0px);
+  }
+}
+
+@keyframes hc-float-1 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes hc-float-2 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes hc-float-3 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes hc-float-4 {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-dot {
+  50% { opacity: 0.4; }
+}
+
+@keyframes draw-line {
+  0% { stroke-dashoffset: 600; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes fade-in-fill {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes beam-drop {
+  0% { top: -120px; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@keyframes count-up-glow {
+  0%, 100% { text-shadow: 0 0 20px rgba(59,130,246,0.3); }
+  50% { text-shadow: 0 0 40px rgba(59,130,246,0.7); }
+}
+
+/* Animate-on-scroll: paused until JS adds .animate */
+.animate-on-scroll {
+  animation-play-state: paused !important;
+}
+.animate-on-scroll.animate {
+  animation-play-state: running !important;
+}
+
+.animate-draw-line {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: draw-line 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-fade-fill {
+  opacity: 0;
+  animation: fade-in-fill 1.5s ease-out 0.5s forwards;
+}
+
+.animate-float-1 { animation: hc-float-1 8s ease-in-out infinite; }
+.animate-float-2 { animation: hc-float-2 9s ease-in-out infinite 1s; }
+.animate-float-3 { animation: hc-float-3 10s ease-in-out infinite 2s; }
+.animate-float-4 { animation: hc-float-4 11s ease-in-out infinite 0.5s; }
+
+.animate-spin-slow { animation: spin-slow 3s linear infinite; }
+.animate-beam { animation: beam-drop 7s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+.animate-beam-delay-1 { animation: beam-drop 7s cubic-bezier(0.4, 0, 0.2, 1) infinite 2.3s; }
+.animate-beam-delay-2 { animation: beam-drop 7s cubic-bezier(0.4, 0, 0.2, 1) infinite 4.6s; }
+
+.animate-count-glow { animation: count-up-glow 3s ease-in-out infinite; }
+
+/* Hero entry animations (immediate, not scroll-triggered) */
+.hero-anim-0 { animation: animationIn 0.8s ease-out 0s both; }
+.hero-anim-1 { animation: animationIn 0.8s ease-out 0.15s both; }
+.hero-anim-2 { animation: animationIn 0.8s ease-out 0.3s both; }
+.hero-anim-3 { animation: animationIn 0.8s ease-out 0.45s both; }
+.hero-anim-4 { animation: animationIn 0.8s ease-out 0.6s both; }
+.hero-anim-5 { animation: animationIn 0.8s ease-out 0.75s both; }
+
+/* Scroll-triggered entry */
+.scroll-anim-1 { animation: animationIn 0.8s ease-out 0.1s forwards; }
+.scroll-anim-2 { animation: animationIn 0.8s ease-out 0.2s forwards; }
+.scroll-anim-3 { animation: animationIn 0.8s ease-out 0.3s forwards; }
+.scroll-anim-4 { animation: animationIn 0.8s ease-out 0.4s forwards; }
+.scroll-anim-5 { animation: animationIn 0.8s ease-out 0.5s forwards; }
+.scroll-anim-6 { animation: animationIn 0.8s ease-out 0.6s forwards; }
+.scroll-anim-7 { animation: animationIn 0.8s ease-out 0.7s forwards; }
