@@ -15,15 +15,15 @@ A full-stack web application built with Next.js that gamifies competitive progra
 
 ## Features
 
-- User authentication with email verification
-- Codeforces account integration and verification
-- Daily problem tracking and streaks
-- Point-based scoring system
-- Leaderboard with user rankings
-- Organization/team management
-- Email notifications with custom HTML templates
-- JWT-based session management
-- Password hashing with Argon2
+- **User authentication** with email verification and secure session management.
+- **Codeforces integration**: Sync submissions, verify handles, and track progress.
+- **Daily streaks**: Keep the momentum going by solving at least one problem every day.
+- **Personalized Practice**: Target specific topics (DP, Graphs, Math) and difficulty levels.
+- **Global Leaderboard**: Compete with coders worldwide and climb the ranks.
+- **Dynamic Light/Dark Mode**: Full theme support with a premium, sleek aesthetic.
+- **Organization & Teams**: Create or join clubs to compete collectively.
+- **Email Notifications**: Custom HTML templates for verification and updates.
+- **Robust Security**: Password hashing with Argon2, JWT-based sessions, and Zod validation.
 
 ## Tech Stack
 
@@ -42,6 +42,7 @@ A full-stack web application built with Next.js that gamifies competitive progra
 happycoding/
 ├── src/
 │   ├── app/                          # Next.js app directory
+│   │   ├── components/               # Page-specific components
 │   │   ├── api/                      # API routes
 │   │   │   ├── auth/                 # Authentication endpoints
 │   │   │   │   ├── [...all]/         # Better Auth catch-all route
@@ -55,6 +56,8 @@ happycoding/
 │   │   ├── verify-email/             # Email verification page
 │   │   ├── layout.tsx                # Root layout
 │   │   ├── page.tsx                  # Home page
+│   │   ├── not-found.tsx             # 404 page
+│   │   ├── app.css                   # Page-specific styles
 │   │   └── globals.css               # Global styles
 │   │
 │   ├── actions/                      # Server actions
@@ -63,12 +66,18 @@ happycoding/
 │   │   ├── leaderboard.actions.ts    # Leaderboard queries
 │   │   ├── organisations.actions.ts  # Organization management
 │   │   ├── streak.actions.ts         # Streak calculations
+│   │   ├── practice.actions.ts       # Practice related actions
 │   │   └── verifications.actions.ts  # Email/account verification
 │   │
 │   ├── components/                   # React components
 │   │   ├── login-form.tsx            # Login form component
 │   │   ├── navbar.tsx                # Navigation bar
 │   │   ├── signup-form.tsx           # Signup form component
+│   │   ├── dashboard-navbar.tsx      # Reusable Dashboard navbar
+│   │   ├── forgot-password-form.tsx  # Forgot password form component
+│   │   ├── reset-password-form.tsx   # Reset password form component
+│   │   ├── theme-toggle.tsx          # Theme toggler component
+│   │   ├── theme-provider.tsx        # Theme provider component
 │   │   └── ui/                       # Reusable UI components
 │   │       ├── button.tsx            # Button component
 │   │       ├── card.tsx              # Card component
@@ -95,12 +104,12 @@ happycoding/
 │   │   ├── auth-service.ts           # Server-side auth service
 │   │   ├── auth.ts                   # Auth configuration
 │   │   ├── jwt.ts                    # JWT token handling
+│   │   ├── use-jwt-session.ts        # Custom hook for JWT session management
 │   │   ├── send-email.ts             # Email sending service
 │   │   ├── session.ts                # Session management
 │   │   └── utils.ts                  # General utilities
 │   │
 │   ├── templates/                    # Email templates
-│   │   ├── email.ts                  # Legacy email template
 │   │   └── token-email.ts            # HTML token verification email
 │   │
 │   ├── validations/                  # Input validation schemas
@@ -113,13 +122,14 @@ happycoding/
 ├── public/                           # Static assets
 ├── drizzle/                          # Database migrations
 ├── components.json                   # shadcn component config
+├── index.d.ts                        # Global Type definitions
 ├── drizzle.config.ts                 # Drizzle ORM config
 ├── eslint.config.mjs                 # ESLint configuration
 ├── next.config.ts                    # Next.js configuration
 ├── postcss.config.mjs                # PostCSS configuration
 ├── tsconfig.json                     # TypeScript configuration
 ├── package.json                      # Dependencies and scripts
-└── README.md                          # This file
+└── README.md                         # Project Documentation
 ```
 
 ## Getting Started
@@ -128,7 +138,6 @@ happycoding/
 
 - Node.js 18+ and npm/yarn/pnpm/bun
 - PostgreSQL database
-- Codeforces API credentials (for Codeforces integration)
 - Email service credentials (for sending verification emails)
 
 ### Installation
@@ -220,6 +229,7 @@ npm run db:studio  # Open Drizzle Studio UI
 ### On-Demand Sync
 
 Codeforces submission sync is triggered on-demand via:
+
 - Dashboard page load (automatic)
 - "Sync Progress" button click (manual)
 - Server action `manualSync()` for custom integrations
@@ -249,6 +259,5 @@ Codeforces submission sync is triggered on-demand via:
 - Codeforces account verification for competitive programming features
 - Environment variables for sensitive credentials
 - CSRF protection via Next.js built-in mechanisms
-
 
 Built with ❤️ by [Jeet Das](https://github.com/JeetDas5)
