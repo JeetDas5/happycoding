@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/tailwind.css";
 import type { Metadata, Viewport } from "next";
 import { Toaster } from "@/components/ui/sonner";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Plus_Jakarta_Sans, Manrope, JetBrains_Mono } from "next/font/google";
 
@@ -34,7 +34,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
   ),
   title: "HappyCoding - Compete, Track & Climb the Ranks",
   description:

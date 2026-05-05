@@ -114,7 +114,11 @@ export function DashboardNavbar() {
               className="p-2 rounded-md hover:bg-muted transition-colors"
               aria-label="Toggle menu"
             >
-              {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {menuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
@@ -137,7 +141,9 @@ export function DashboardNavbar() {
                 )}
               >
                 {link.name}
-                {pathname === link.href && <div className="w-2 h-2 rounded-full bg-primary" />}
+                {pathname === link.href && (
+                  <div className="w-2 h-2 rounded-full bg-primary" />
+                )}
               </Link>
             ))}
           </div>
@@ -150,7 +156,9 @@ export function DashboardNavbar() {
                 </div>
                 <div>
                   <div className="font-bold">{user?.name || "User"}</div>
-                  <div className="text-xs text-muted-foreground">{user?.email}</div>
+                  <div className="text-xs text-muted-foreground">
+                    {user?.email}
+                  </div>
                 </div>
               </div>
               <ModeToggle />
