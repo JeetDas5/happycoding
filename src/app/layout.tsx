@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
   ),
-  title: "HappyCoding — Compete, Track & Climb the Ranks",
+  title: "HappyCoding - Compete, Track & Climb the Ranks",
   description:
     "HappyCoding helps Codeforces users build daily streaks, earn points, and compete on leaderboards. Join 1,200+ competitive programmers today.",
   icons: {

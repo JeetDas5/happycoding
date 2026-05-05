@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ExternalLink, ArrowLeft } from "lucide-react";
+import { ExternalLink } from "lucide-react";
+import { DashboardNavbar } from "@/components/dashboard-navbar";
 
 type MeResponse = {
   user: {
@@ -91,27 +92,34 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <p className="text-sm text-muted-foreground">Loading profile...</p>
+      <div className="min-h-screen bg-background">
+        <DashboardNavbar />
+        <div className="container mx-auto px-4 py-8">
+          <p className="text-sm text-muted-foreground">Loading profile...</p>
+        </div>
       </div>
     );
   }
 
   if (error || !data) {
     return (
-      <div className="container mx-auto px-4 py-8 space-y-4">
-        <p className="text-sm text-destructive">
-          {error || "Unable to load profile"}
-        </p>
-        <Link href="/dashboard" className="text-sm text-primary underline">
-          Back to dashboard
-        </Link>
+      <div className="min-h-screen bg-background">
+        <DashboardNavbar />
+        <div className="container mx-auto px-4 py-8 space-y-4">
+          <p className="text-sm text-destructive">
+            {error || "Unable to load profile"}
+          </p>
+          <Link href="/dashboard" className="text-sm text-primary underline">
+            Back to dashboard
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-background">
+      <DashboardNavbar />
       <div className="container mx-auto px-4 py-6 space-y-6">
         <div className="flex items-center justify-between">
           <div>
@@ -122,13 +130,6 @@ export default function ProfilePage() {
               Solved history, tags, and activity heat map
             </p>
           </div>
-          <Link
-            href="/dashboard"
-            className="inline-flex items-center gap-2 text-sm text-primary"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Dashboard
-          </Link>
         </div>
 
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">

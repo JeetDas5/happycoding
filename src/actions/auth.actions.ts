@@ -107,3 +107,6 @@ export async function resetPasswordAction(formData: FormData) {
     return { error: "Reset failed" };
   }
 }
+export async function logout() {
+  (await cookies()).delete("session");
+}

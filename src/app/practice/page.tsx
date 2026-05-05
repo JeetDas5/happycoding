@@ -7,7 +7,7 @@ import {
   PracticeFilters,
 } from "@/actions/practice.actions";
 import { useJwtSession } from "@/lib/use-jwt-session";
-import Header from "@/components/header";
+import { DashboardNavbar } from "@/components/dashboard-navbar";
 import Footer from "@/components/footer";
 import SpotlightInit from "@/app/components/SpotlightInit";
 import ScrollAnimInit from "@/app/components/ScrollAnimInit";
@@ -89,7 +89,7 @@ export default function PracticePage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-background overflow-x-hidden selection:bg-primary/30 selection:text-white">
+    <div className="relative min-h-screen bg-background overflow-x-hidden">
       <div
         className="fixed inset-0 pointer-events-none z-0"
         style={{
@@ -100,18 +100,18 @@ export default function PracticePage() {
       />
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-7xl h-200 bg-primary/10 rounded-full blur-[120px] pointer-events-none z-0" />
 
-      <Header />
+      <DashboardNavbar />
 
-      <main className="relative z-10 pt-32 pb-20 px-6 max-w-7xl mx-auto">
+      <main className="relative z-10 pt-12 pb-20 px-6 max-w-7xl mx-auto">
         <div className="flex flex-col gap-12">
           <div className="text-center space-y-4">
             <Badge variant="accent" className="px-4 py-1 text-sm hero-anim-0">
               Practice Mode
             </Badge>
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white hero-anim-1">
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground hero-anim-1">
               Custom <span className="text-primary">Problemsets</span>
             </h1>
-            <p className="text-lg text-white/60 max-w-2xl mx-auto hero-anim-2">
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto hero-anim-2">
               Generate personalized practice sessions based on your skill level
               and target topics.
             </p>
@@ -119,9 +119,9 @@ export default function PracticePage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <div className="lg:col-span-4 space-y-6 hero-anim-3">
-              <Card className="glass-card border-white/10 bg-card/50 backdrop-blur-xl">
+              <Card className="glass-card border-border bg-card/50 backdrop-blur-xl p-1 pb-2">
                 <CardHeader>
-                  <CardTitle className="text-xl text-white flex items-center gap-2">
+                  <CardTitle className="text-xl text-foreground flex items-center gap-2">
                     <Icon
                       name="AdjustmentsHorizontalIcon"
                       size={20}
@@ -129,18 +129,18 @@ export default function PracticePage() {
                     />
                     Filters
                   </CardTitle>
-                  <CardDescription className="text-white/40">
+                  <CardDescription className="text-muted-foreground">
                     Adjust parameters to refine your practice set.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div className="space-y-3">
-                    <Label className="text-white/80">
+                    <Label className="text-foreground/80">
                       Rating Range: {filters.minRating} — {filters.maxRating}
                     </Label>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <span className="text-[10px] uppercase tracking-wider text-white/40 font-bold">
+                        <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">
                           Min
                         </span>
                         <Input
@@ -153,11 +153,11 @@ export default function PracticePage() {
                               minRating: parseInt(e.target.value),
                             })
                           }
-                          className="bg-white/5 border-white/10 text-white"
+                          className="bg-muted/50 border-border text-foreground"
                         />
                       </div>
                       <div className="space-y-2">
-                        <span className="text-[10px] uppercase tracking-wider text-white/40 font-bold">
+                        <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">
                           Max
                         </span>
                         <Input
@@ -170,14 +170,14 @@ export default function PracticePage() {
                               maxRating: parseInt(e.target.value),
                             })
                           }
-                          className="bg-white/5 border-white/10 text-white"
+                          className="bg-muted/50 border-border text-foreground"
                         />
                       </div>
                     </div>
                   </div>
 
                   <div className="space-y-3">
-                    <Label className="text-white/80">
+                    <Label className="text-foreground/80">
                       Problems Count: {filters.limit}
                     </Label>
                     <Input
@@ -195,7 +195,7 @@ export default function PracticePage() {
                     />
                   </div>
 
-                  <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 transition-colors hover:border-white/10">
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/50 border border-border transition-colors hover:border-primary/30">
                     <input
                       type="checkbox"
                       id="excludeSolved"
@@ -210,24 +210,24 @@ export default function PracticePage() {
                     />
                     <Label
                       htmlFor="excludeSolved"
-                      className="text-white/80 cursor-pointer"
+                      className="text-foreground/80 cursor-pointer"
                     >
                       Exclude Solved Problems
                     </Label>
                   </div>
 
                   <div className="space-y-3">
-                    <Label className="text-white/80">Tags (Overlap)</Label>
+                    <Label className="text-foreground/80">Tags (Overlap)</Label>
                     <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
                       {COMMON_TAGS.map((tag) => (
                         <button
                           key={tag}
                           onClick={() => toggleTag(tag)}
                           className={cn(
-                            "px-3 py-1 rounded-full text-xs font-medium border transition-all",
+                            "px-3 py-1 rounded-full text-xs font-medium border transition-all cursor-pointer",
                             filters.tags?.includes(tag)
                               ? "bg-primary border-primary text-white shadow-[0_0_15px_rgba(59,130,246,0.3)]"
-                              : "bg-white/5 border-white/10 text-white/60 hover:border-white/20 hover:text-white"
+                              : "bg-muted border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
                           )}
                         >
                           {tag}
@@ -237,7 +237,7 @@ export default function PracticePage() {
                   </div>
 
                   <Button
-                    className="w-full bg-primary hover:bg-accent text-white font-bold h-12 rounded-xl transition-all shadow-lg shadow-primary/20"
+                    className="w-full bg-primary hover:bg-primary/70 text-white font-bold h-12 rounded-xl transition-all shadow-lg shadow-primary/20 cursor-pointer"
                     onClick={handleFetchProblems}
                     disabled={loading}
                   >
@@ -265,17 +265,17 @@ export default function PracticePage() {
                       rel="noopener noreferrer"
                       className="group block"
                     >
-                      <Card className="spotlight-card glass-card border-white/10 bg-card/40 hover:bg-white/5 transition-all duration-300 overflow-hidden">
+                      <Card className="spotlight-card glass-card border-border bg-card/40 hover:bg-muted/30 transition-all duration-300 overflow-hidden">
                         <CardContent className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
                           <div className="space-y-3">
                             <div className="flex items-center gap-3">
                               <Badge
                                 variant="outline"
-                                className="bg-white/5 text-white/80 border-white/10"
+                                className="bg-muted text-foreground/80 border-border"
                               >
                                 {problem.id}
                               </Badge>
-                              <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors">
+                              <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
                                 {problem.name}
                               </h3>
                             </div>
@@ -284,7 +284,7 @@ export default function PracticePage() {
                                 <Badge
                                   key={tag}
                                   variant="secondary"
-                                  className="bg-white/5 text-white/40 border-transparent text-[10px] uppercase tracking-widest"
+                                  className="bg-muted text-muted-foreground border-transparent text-[10px] uppercase tracking-widest"
                                 >
                                   {tag}
                                 </Badge>
@@ -292,9 +292,9 @@ export default function PracticePage() {
                             </div>
                           </div>
 
-                          <div className="flex items-center justify-between md:justify-end gap-6 border-t md:border-0 border-white/5 pt-4 md:pt-0">
+                          <div className="flex items-center justify-between md:justify-end gap-6 border-t md:border-0 border-border pt-4 md:pt-0">
                             <div className="text-center">
-                              <div className="text-[10px] uppercase tracking-wider text-white/40 font-bold mb-1">
+                              <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold mb-1">
                                 Rating
                               </div>
                               <div
@@ -312,11 +312,11 @@ export default function PracticePage() {
                                 {problem.rating || "N/A"}
                               </div>
                             </div>
-                            <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary transition-colors">
+                            <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary transition-colors">
                               <Icon
                                 name="ArrowTopRightOnSquareIcon"
                                 size={18}
-                                className="text-white"
+                                className="text-foreground group-hover:text-white"
                               />
                             </div>
                           </div>
@@ -326,18 +326,18 @@ export default function PracticePage() {
                   ))}
                 </div>
               ) : (
-                <div className="h-[400px] flex flex-col items-center justify-center text-center p-12 border-2 border-dashed border-white/5 rounded-3xl bg-white/[0.02]">
-                  <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-6">
+                <div className="h-[400px] flex flex-col items-center justify-center text-center p-12 border-2 border-dashed border-border rounded-3xl bg-muted/20">
+                  <div className="w-20 h-20 rounded-full bg-muted flex items-center justify-center mb-6">
                     <Icon
                       name="SparklesIcon"
                       size={40}
-                      className="text-white/20"
+                      className="text-muted-foreground/30"
                     />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">
+                  <h3 className="text-xl font-bold text-foreground mb-2">
                     No Problems Generated
                   </h3>
-                  <p className="text-white/40 max-w-sm">
+                  <p className="text-muted-foreground max-w-sm">
                     Configure the filters and click &quot;Generate Set&quot; to
                     find your next challenge.
                   </p>

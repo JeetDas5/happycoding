@@ -21,8 +21,8 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getDashboardData } from "./actions";
-import { CFWidget, SyncButton, OrgWidget, CopyButton } from "./client-widgets";
-import { ModeToggle } from "@/components/theme-toggle";
+import { CFWidget, OrgWidget, CopyButton } from "./client-widgets";
+import { DashboardNavbar } from "@/components/dashboard-navbar";
 
 async function logoutAction() {
   "use server";
@@ -61,64 +61,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold tracking-tight">
-            Happy<span className="text-primary">Coding</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-4">
-              <Link
-                href="/practice"
-                className="text-sm font-medium px-3 py-2 rounded-md hover:bg-muted"
-              >
-                Practice
-              </Link>
-              <Link
-                href="/profile"
-                className="text-sm font-medium px-3 py-2 rounded-md hover:bg-muted"
-              >
-                Profile
-              </Link>
-            </div>
-
-            <div className="h-6 w-px bg-border" />
-
-            <ModeToggle />
-
-            <SyncButton />
-
-            <div className="h-6 w-px bg-border" />
-
-            <div className="relative group">
-              <button
-                type="button"
-                aria-haspopup="menu"
-                className="flex items-center gap-2 rounded-lg px-2 py-1 hover:bg-muted/60 focus:outline-none focus:ring-2 focus:ring-primary/30"
-              >
-                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
-                  {user?.name?.[0]?.toUpperCase()}
-                </div>
-                <span className="text-sm font-medium hidden sm:block">
-                  {user?.name}
-                </span>
-              </button>
-
-              <div className="pointer-events-none absolute right-0 top-[calc(100%+8px)] z-50 w-44 rounded-xl border bg-background p-1 shadow-lg opacity-0 translate-y-1 transition-all duration-150 group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:pointer-events-auto">
-                <form action={logoutAction}>
-                  <button
-                    type="submit"
-                    className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground hover:bg-muted"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    Logout
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
+      <DashboardNavbar />
 
       <main className="container mx-auto px-4 pt-4 pb-8 space-y-6">
         <div>
