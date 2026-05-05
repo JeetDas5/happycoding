@@ -22,6 +22,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { getDashboardData } from "./actions";
 import { CFWidget, SyncButton, OrgWidget, CopyButton } from "./client-widgets";
+import { ModeToggle } from "@/components/theme-toggle";
 
 async function logoutAction() {
   "use server";
@@ -66,8 +67,29 @@ export default async function DashboardPage() {
             Happy<span className="text-primary">Coding</span>
           </Link>
           <div className="flex items-center gap-3">
-            <SyncButton />
+            <div className="hidden sm:flex items-center gap-4">
+              <Link
+                href="/practice"
+                className="text-sm font-medium px-3 py-2 rounded-md hover:bg-muted"
+              >
+                Practice
+              </Link>
+              <Link
+                href="/profile"
+                className="text-sm font-medium px-3 py-2 rounded-md hover:bg-muted"
+              >
+                Profile
+              </Link>
+            </div>
+
             <div className="h-6 w-px bg-border" />
+
+            <ModeToggle />
+
+            <SyncButton />
+
+            <div className="h-6 w-px bg-border" />
+
             <div className="relative group">
               <button
                 type="button"
@@ -83,12 +105,6 @@ export default async function DashboardPage() {
               </button>
 
               <div className="pointer-events-none absolute right-0 top-[calc(100%+8px)] z-50 w-44 rounded-xl border bg-background p-1 shadow-lg opacity-0 translate-y-1 transition-all duration-150 group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:pointer-events-auto">
-                <Link
-                  href="/profile"
-                  className="flex w-full items-center rounded-md px-3 py-2 text-sm text-foreground hover:bg-muted"
-                >
-                  Profile
-                </Link>
                 <form action={logoutAction}>
                   <button
                     type="submit"

@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Manrope, JetBrains_Mono } from "next/font/google";
 import "../styles/tailwind.css";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -32,7 +33,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
   ),
   title: "HappyCoding — Compete, Track & Climb the Ranks",
   description:
@@ -59,7 +60,14 @@ export default function RootLayout({
       className={`${plusJakartaSans.variable} ${manrope.variable} ${jetbrainsMono.variable}`}
     >
       <body className={plusJakartaSans.className}>
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
         <Toaster position="bottom-right" duration={3000} />
       </body>
     </html>
