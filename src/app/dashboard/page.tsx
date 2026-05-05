@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { cookies } from "next/headers";
 import {
   Trophy,
   Flame,
@@ -10,7 +9,6 @@ import {
   CheckCircle2,
   Clock,
   Building2,
-  LogOut,
 } from "lucide-react";
 import {
   Card,
@@ -21,14 +19,14 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { getDashboardData } from "./actions";
-import { CFWidget, OrgWidget, CopyButton } from "./client-widgets";
+import {
+  CFWidget,
+  OrgWidget,
+  CopyButton,
+  LeaveOrgButton,
+  LeaderboardWidget,
+} from "./client-widgets";
 import { DashboardNavbar } from "@/components/dashboard-navbar";
-
-async function logoutAction() {
-  "use server";
-  (await cookies()).delete("session");
-  redirect("/");
-}
 
 export default async function DashboardPage() {
   const data = await getDashboardData();
@@ -38,17 +36,22 @@ export default async function DashboardPage() {
     user,
     orgs,
     globalLeaderboard,
+    orgLeaderboards,
     todayProblem,
     todayProblemUrl,
     recentSubmissions,
   } = data;
 
+  if (!user) {
+    redirect("/login");
+  }
+
   const difficulty = todayProblem?.rating
     ? todayProblem.rating < 1000
       ? "easy"
       : todayProblem.rating < 1200
-        ? "medium"
-        : "hard"
+      ? "medium"
+      : "hard"
     : "medium";
 
   const rank =
@@ -100,7 +103,7 @@ export default async function DashboardPage() {
             label="Problems Solved"
             value={`${
               recentSubmissions.filter(
-                (s) => s.status === "solved" || s.verdict === "OK",
+                (s) => s.status === "solved" || s.verdict === "OK"
               ).length
             }`}
             sub="recent"
@@ -294,75 +297,11 @@ export default async function DashboardPage() {
 
           {/* Right Column */}
           <div className="space-y-6">
-            {/* Global Leaderboard */}
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base font-semibold flex items-center gap-2">
-                  <Trophy className="w-4 h-4 text-primary" />
-                  Global Leaderboard
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-0">
-                <div>
-                  {globalLeaderboard.map(
-                    (
-                      u: {
-                        id: string;
-                        name: string;
-                        points: number | null;
-                        streak: number | null;
-                      },
-                      idx: number,
-                    ) => (
-                      <div
-                        key={u.id}
-                        className={`flex items-center gap-3 px-4 py-3 border-b last:border-0 ${
-                          u.id === user?.id ? "bg-primary/5" : ""
-                        }`}
-                      >
-                        <span
-                          className={`text-sm font-bold w-6 text-center ${
-                            idx === 0
-                              ? "text-yellow-500"
-                              : idx === 1
-                                ? "text-zinc-400"
-                                : idx === 2
-                                  ? "text-orange-500"
-                                  : "text-muted-foreground"
-                          }`}
-                        >
-                          {idx + 1}
-                        </span>
-                        <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold shrink-0">
-                          {u.name?.[0]?.toUpperCase()}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <p
-                            className={`text-sm font-medium truncate ${
-                              u.id === user?.id ? "text-primary" : ""
-                            }`}
-                          >
-                            {u.name} {u.id === user?.id && "(you)"}
-                          </p>
-                        </div>
-                        <div className="text-right shrink-0">
-                          <p className="text-sm font-bold">{u.points ?? 0}</p>
-                          <p className="text-xs text-muted-foreground flex items-center gap-1 justify-end">
-                            <Flame className="w-3 h-3 text-orange-400" />
-                            {u.streak ?? 0}
-                          </p>
-                        </div>
-                      </div>
-                    ),
-                  )}
-                  {globalLeaderboard.length === 0 && (
-                    <p className="text-center text-sm text-muted-foreground py-6">
-                      No data yet
-                    </p>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            <LeaderboardWidget
+              globalLeaderboard={globalLeaderboard}
+              orgLeaderboards={orgLeaderboards}
+              userId={user?.id}
+            />
 
             {/* Organizations */}
             <Card className="py-2">
@@ -397,12 +336,15 @@ export default async function DashboardPage() {
                               {m.role}
                             </p>
                           </div>
-                          <div className="flex items-center gap-1 text-xs text-muted-foreground font-mono bg-background border rounded px-2 py-0.5">
-                            {m.organization.inviteCode}
-                            <CopyButton text={m.organization.inviteCode} />
+                          <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1 text-xs text-muted-foreground font-mono bg-background border rounded px-2 py-0.5">
+                              {m.organization.inviteCode}
+                              <CopyButton text={m.organization.inviteCode} />
+                            </div>
+                            <LeaveOrgButton orgId={m.organization.id} />
                           </div>
                         </div>
-                      ),
+                      )
                     )}
                   </div>
                 )}

@@ -1,15 +1,46 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useTransition } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CheckCircle2, Loader2, RefreshCw, Copy, Check } from "lucide-react";
+import {
+  CheckCircle2,
+  Loader2,
+  RefreshCw,
+  Copy,
+  Check,
+  LogOut,
+  Trophy,
+  Flame,
+  ChevronDown,
+} from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import {
   handleStartCFVerification,
   handleVerifyCF,
   handleManualSync,
   handleCreateOrg,
   handleJoinOrg,
+  handleLeaveOrg,
 } from "./actions";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -27,7 +58,7 @@ export function CFWidget({
 }: CFWidgetProps) {
   const [handle, setHandle] = useState(cfHandle || "");
   const [step, setStep] = useState<"idle" | "started" | "done">(
-    cfVerified ? "done" : cfVerificationStartedAt ? "started" : "idle",
+    cfVerified ? "done" : cfVerificationStartedAt ? "started" : "idle"
   );
   const [message, setMessage] = useState("");
   const [isPending, startTransition] = useTransition();
@@ -56,7 +87,7 @@ export function CFWidget({
         router.refresh();
       } else {
         setMessage(
-          "No valid submission found yet. Try solving a problem first.",
+          "No valid submission found yet. Try solving a problem first."
         );
       }
     });
@@ -144,17 +175,15 @@ export function CFWidget({
 
 export function SyncButton() {
   const [isPending, startTransition] = useTransition();
-  const [msg, setMsg] = useState("");
   const router = useRouter();
 
   function sync() {
     startTransition(async () => {
-      setMsg("");
       const res = await handleManualSync();
       if (res.error) {
-        setMsg(res.error);
+        toast.error(res.error);
       } else {
-        setMsg("Synced! Points and streak updated.");
+        toast.success("Synced! Points and streak updated.");
         router.refresh();
       }
     });
@@ -176,7 +205,6 @@ export function SyncButton() {
         )}
         Sync Progress
       </Button>
-      {msg && <p className="text-xs text-muted-foreground">{msg}</p>}
     </div>
   );
 }
@@ -184,28 +212,21 @@ export function SyncButton() {
 export function OrgWidget() {
   const [tab, setTab] = useState<"create" | "join">("create");
   const [value, setValue] = useState("");
-  const [msg, setMsg] = useState<{
-    type: "success" | "error";
-    text: string;
-  } | null>(null);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
   function submit() {
     startTransition(async () => {
-      setMsg(null);
       const res =
         tab === "create"
           ? await handleCreateOrg(value)
           : await handleJoinOrg(value);
       if ("error" in res && res.error) {
-        setMsg({ type: "error", text: res.error });
+        toast.error(res.error);
       } else {
-        setMsg({
-          type: "success",
-          text:
-            tab === "create" ? "Organization created!" : "Joined organization!",
-        });
+        toast.success(
+          tab === "create" ? "Organization created!" : "Joined organization!"
+        );
         setValue("");
         router.refresh();
       }
@@ -221,7 +242,6 @@ export function OrgWidget() {
             onClick={() => {
               setTab(t);
               setValue("");
-              setMsg(null);
             }}
             className={`flex-1 py-1.5 text-sm font-medium rounded-md capitalize transition-colors ${
               tab === t
@@ -254,13 +274,6 @@ export function OrgWidget() {
           )}
         </Button>
       </div>
-      {msg && (
-        <p
-          className={`text-xs ${msg.type === "success" ? "text-green-600 dark:text-green-400" : "text-destructive"}`}
-        >
-          {msg.text}
-        </p>
-      )}
     </div>
   );
 }
@@ -286,5 +299,182 @@ export function CopyButton({ text }: { text: string }) {
         <Copy className="w-3 h-3" />
       )}
     </button>
+  );
+}
+
+export function LeaveOrgButton({ orgId }: { orgId: string }) {
+  const [isPending, startTransition] = useTransition();
+  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
+  function leave() {
+    startTransition(async () => {
+      const res = await handleLeaveOrg(orgId);
+      if (res.error) {
+        toast.error(res.error);
+      } else {
+        toast.success("Left organization successfully");
+        router.refresh();
+      }
+      setIsOpen(false);
+    });
+  }
+
+  return (
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+      <AlertDialogTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          disabled={isPending}
+          className="h-8 w-8 p-0 text-muted-foreground hover:text-destructive hover:bg-destructive/10 cursor-pointer"
+        >
+          {isPending ? (
+            <Loader2 className="w-3 h-3 animate-spin" />
+          ) : (
+            <LogOut className="w-3 h-3" />
+          )}
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. You will lose access to this
+            organization&apos;s leaderboard and challenges.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel disabled={isPending} className="cursor-pointer">
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction
+            onClick={(e) => {
+              e.preventDefault();
+              leave();
+            }}
+            disabled={isPending}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90 cursor-pointer"
+          >
+            {isPending ? (
+              <Loader2 className="w-4 h-4 animate-spin mr-2" />
+            ) : null}
+            Leave Organization
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+}
+
+export function LeaderboardWidget({
+  globalLeaderboard,
+  orgLeaderboards,
+  userId,
+}: {
+  globalLeaderboard: any[];
+  orgLeaderboards: any[];
+  userId: string;
+}) {
+  const [view, setView] = useState<"global" | string>("global");
+
+  const activeLeaderboard =
+    view === "global"
+      ? globalLeaderboard
+      : orgLeaderboards.find((ol) => ol.orgId === view)?.leaderboard || [];
+
+  const activeName =
+    view === "global"
+      ? "Global"
+      : orgLeaderboards.find((ol) => ol.orgId === view)?.orgName || "Org";
+
+  return (
+    <Card>
+      <CardHeader className="pb-3">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-base font-semibold flex items-center gap-2">
+            <Trophy className="w-4 h-4 text-primary" />
+            {activeName} Leaderboard
+          </CardTitle>
+          {orgLeaderboards.length > 0 && (
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 gap-1 text-[10px] font-bold uppercase tracking-wider bg-muted/30 border"
+                >
+                  {activeName}
+                  <ChevronDown className="w-3 h-3 opacity-50" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-40">
+                <DropdownMenuItem onClick={() => setView("global")}>
+                  Global
+                </DropdownMenuItem>
+                {orgLeaderboards.map((ol) => (
+                  <DropdownMenuItem
+                    key={ol.orgId}
+                    onClick={() => setView(ol.orgId)}
+                  >
+                    {ol.orgName}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+        </div>
+      </CardHeader>
+      <CardContent className="p-0">
+        <div>
+          {activeLeaderboard.map((u: any, idx: number) => (
+            <div
+              key={u.id}
+              className={`flex items-center gap-3 px-4 py-3 border-b last:border-0 ${
+                u.id === userId ? "bg-primary/5" : ""
+              }`}
+            >
+              <span
+                className={`text-sm font-bold w-6 text-center ${
+                  idx === 0
+                    ? "text-yellow-500"
+                    : idx === 1
+                    ? "text-zinc-400"
+                    : idx === 2
+                    ? "text-orange-500"
+                    : "text-muted-foreground"
+                }`}
+              >
+                {idx + 1}
+              </span>
+              <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold shrink-0">
+                {u.name?.[0]?.toUpperCase()}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p
+                  className={`text-sm font-medium truncate ${
+                    u.id === userId ? "text-primary" : ""
+                  }`}
+                >
+                  {u.name} {u.id === userId && "(you)"}
+                </p>
+              </div>
+              <div className="text-right shrink-0">
+                <p className="text-sm font-bold">{u.points ?? 0}</p>
+                <p className="text-xs text-muted-foreground flex items-center gap-1 justify-end">
+                  <Flame className="w-3 h-3 text-orange-400" />
+                  {u.streak ?? 0}
+                </p>
+              </div>
+            </div>
+          ))}
+          {activeLeaderboard.length === 0 && (
+            <p className="text-center text-sm text-muted-foreground py-6">
+              No data yet
+            </p>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   );
 }

@@ -6,9 +6,12 @@ import {
   createOrganization,
   joinOrganization,
   getUserOrganizations,
-  getOrgLeaderboard,
+  leaveOrganization,
 } from "@/actions/organisations.actions";
-import { getGlobalLeaderboard } from "@/actions/leaderboard.actions";
+import {
+  getGlobalLeaderboard,
+  getOrgLeaderboard,
+} from "@/actions/leaderboard.actions";
 import { getUser } from "@/helper/auth";
 import {
   getTodayProblem,
@@ -39,10 +42,20 @@ export async function getDashboardData() {
 
   const todayProblemUrl = todayProblem ? getProblemURL(todayProblem) : null;
 
+  // Fetch leaderboards for each org
+  const orgLeaderboards = await Promise.all(
+    orgs.map(async (m) => ({
+      orgId: m.organization.id,
+      orgName: m.organization.name,
+      leaderboard: await getOrgLeaderboard(m.organization.id),
+    }))
+  );
+
   return {
     user,
     orgs,
     globalLeaderboard,
+    orgLeaderboards,
     todayProblem,
     todayProblemUrl,
     recentSubmissions,
@@ -125,4 +138,17 @@ export async function handleManualSync() {
 
 export async function handleGetOrgLeaderboard(orgId: string) {
   return getOrgLeaderboard(orgId);
+}
+
+export async function handleLeaveOrg(orgId: string) {
+  const session = await getSession();
+  if (!session) return { error: "Not authenticated" };
+  try {
+    await leaveOrganization(session.user.id, orgId);
+    return { success: true };
+  } catch (e) {
+    return {
+      error: e instanceof Error ? e.message : "Failed to leave organization",
+    };
+  }
 }
