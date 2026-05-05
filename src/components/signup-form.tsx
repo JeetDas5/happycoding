@@ -11,7 +11,7 @@ import {
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { User, Mail, Lock, Loader2, UserPlus } from "lucide-react";
+import { User, Mail, Lock, Loader2, UserPlus, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 
@@ -23,6 +23,7 @@ interface Props {
 
 export function SignupForm({ action }: Props) {
   const [loading, setLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -42,6 +43,7 @@ export function SignupForm({ action }: Props) {
     if (result.error) {
       toast.error(result.error || "Signup failed");
     } else {
+      setIsSuccess(true);
       toast.success(
         "Account created successfully! Check your email to verify your account.",
       );
@@ -124,6 +126,20 @@ export function SignupForm({ action }: Props) {
               </Field>
             </div>
           </div>
+
+          {isSuccess && (
+            <div className="p-4 rounded-xl bg-primary/10 border border-primary/20 animate-in fade-in slide-in-from-top-2 duration-300">
+              <div className="flex items-start gap-3">
+                <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <p className="text-sm font-semibold text-primary">Verification email sent!</p>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Check your inbox (and spam) to verify your account.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
 
           <Button
             type="submit"
