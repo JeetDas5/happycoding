@@ -89,12 +89,12 @@ export default function SocialProofSection() {
       <div
         className="absolute top-16 left-1/2 -translate-x-1/2 pointer-events-none select-none text-center w-full"
         style={{
-          maskImage: 'linear-gradient(180deg, transparent, black 10%, black 70%, transparent)',
-          WebkitMaskImage: 'linear-gradient(180deg, transparent, black 10%, black 70%, transparent)'
+          maskImage: 'linear-gradient(180deg, transparent, currentColor 10%, currentColor 70%, transparent)',
+          WebkitMaskImage: 'linear-gradient(180deg, transparent, currentColor 10%, currentColor 70%, transparent)'
         }}>
         
         <span
-          className="font-extrabold text-white/[0.025] tracking-tighter whitespace-nowrap"
+          className="font-extrabold text-foreground/[0.025] tracking-tighter whitespace-nowrap"
           style={{ fontSize: 'clamp(4rem, 13vw, 13rem)' }}>
           
           Community
@@ -108,7 +108,7 @@ export default function SocialProofSection() {
             <span className="w-1 h-1 rounded-full bg-accent" />
             Trusted by Competitors
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.05]">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight leading-[1.05]">
             Coders who grind together, rank together
           </h2>
         </div>
@@ -124,12 +124,12 @@ export default function SocialProofSection() {
         {stats.map((s) =>
         <div
           key={s.label}
-          className="spotlight-card rounded-2xl p-5 border border-white/[0.06] bg-card flex flex-col gap-2">
+          className="spotlight-card rounded-2xl p-5 border border-border bg-card flex flex-col gap-2">
           
             <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
               <Icon name={s.icon} size={16} variant="solid" className="text-accent" />
             </div>
-            <span className="text-2xl md:text-3xl font-extrabold text-white font-mono animate-count-glow">{s.value}</span>
+            <span className="text-2xl md:text-3xl font-extrabold text-foreground font-mono animate-count-glow">{s.value}</span>
             <span className="text-xs text-muted-foreground font-body">{s.label}</span>
           </div>
         )}
@@ -140,11 +140,11 @@ export default function SocialProofSection() {
         {testimonials.map((t, idx) =>
         <div
           key={t.name}
-          className={`spotlight-card rounded-2xl p-7 border border-white/[0.06] bg-card animate-on-scroll opacity-100 flex flex-col justify-between scroll-anim-${Math.min(idx + 2, 7)}`}>
+          className={`spotlight-card rounded-2xl p-7 border border-border bg-card animate-on-scroll opacity-100 flex flex-col justify-between scroll-anim-${Math.min(idx + 2, 7)}`}>
           
             <div>
               {/* Header */}
-              <div className="flex items-start justify-between border-b border-white/[0.06] pb-5 mb-6">
+              <div className="flex items-start justify-between border-b border-border pb-5 mb-6">
                 <div className="flex items-center gap-3">
                   <div className="relative">
                     <div className="w-10 h-10 rounded-lg overflow-hidden">
@@ -159,7 +159,7 @@ export default function SocialProofSection() {
                     <div className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 ${t.statusColor} rounded-full border-2 border-card`} />
                   </div>
                   <div>
-                    <p className="text-[13px] font-bold text-white">{t.name}</p>
+                    <p className="text-[13px] font-bold text-foreground">{t.name}</p>
                     <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono">{t.role} · {t.company}</p>
                   </div>
                 </div>
@@ -174,13 +174,13 @@ export default function SocialProofSection() {
               </div>
 
               {/* Quote */}
-              <p className="text-base font-light leading-relaxed text-white/80 font-body italic mb-4">
+              <p className="text-base font-light leading-relaxed text-foreground/80 font-body italic mb-4">
                 &ldquo;{t.quote}&rdquo;
               </p>
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-between pt-4 border-t border-white/[0.04]">
+            <div className="flex items-center justify-between pt-4 border-t border-border">
               <span className="text-[10px] font-mono text-muted-foreground">{t.num}</span>
               <Icon name="ArrowTopRightOnSquareIcon" size={14} className="text-accent/50" />
             </div>

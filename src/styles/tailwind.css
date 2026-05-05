@@ -114,7 +114,7 @@
     box-sizing: border-box;
   }
   body {
-    @apply bg-background text-foreground antialiased selection:bg-primary/30 selection:text-white;
+    @apply bg-background text-foreground antialiased selection:bg-primary/30 selection:text-primary;
     font-family: var(--font-sans);
     overflow-x: hidden;
   }
@@ -127,6 +127,7 @@
   .spotlight-card {
     position: relative;
     background-color: var(--card);
+    @apply border border-border;
   }
 
   .spotlight-card::before {
@@ -154,7 +155,7 @@
   }
 
   .glass-card {
-    @apply bg-card/70 backdrop-blur-xl border border-white/10 shadow-2xl;
+    @apply bg-card/70 backdrop-blur-xl border border-border shadow-2xl;
   }
 }
 

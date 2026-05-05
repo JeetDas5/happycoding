@@ -12,13 +12,13 @@ export default function FeaturesSection() {
         className="absolute -top-28 left-1/2 -translate-x-1/2 pointer-events-none select-none text-center w-full"
         style={{
           maskImage:
-            "linear-gradient(180deg, transparent, black 10%, black 70%, transparent)",
+            "linear-gradient(180deg, transparent, currentColor 10%, currentColor 70%, transparent)",
           WebkitMaskImage:
-            "linear-gradient(180deg, transparent, black 10%, black 70%, transparent)",
+            "linear-gradient(180deg, transparent, currentColor 10%, currentColor 70%, transparent)",
         }}
       >
         <span
-          className="font-extrabold text-white/3 tracking-tighter whitespace-nowrap"
+          className="font-extrabold text-foreground/[0.03] tracking-tighter whitespace-nowrap"
           style={{ fontSize: "clamp(4rem, 14vw, 14rem)" }}
         >
           Features
@@ -30,7 +30,7 @@ export default function FeaturesSection() {
             <span className="w-1 h-1 rounded-full bg-accent" />
             Platform Capabilities
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.05]">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight leading-[1.05]">
             Everything you need to compete
           </h2>
         </div>
@@ -42,21 +42,16 @@ export default function FeaturesSection() {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 relative z-10">
-        <div className="spotlight-card md:row-span-2 rounded-2xl p-6 border border-white/6 bg-card animate-on-scroll opacity-100 scroll-anim-2 flex flex-col">
+        <div className="spotlight-card md:row-span-2 rounded-2xl p-6 border border-border bg-card animate-on-scroll opacity-100 scroll-anim-2 flex flex-col">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20">
-              <Icon
-                name="FireIcon"
-                size={20}
-                variant="solid"
-                className="text-accent"
-              />
+              <Icon name="FireIcon" size={20} variant="solid" />
             </div>
             <div>
               <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
                 01
               </span>
-              <h3 className="text-lg font-bold text-white">
+              <h3 className="text-lg font-bold text-foreground">
                 Daily Streak Tracking
               </h3>
             </div>
@@ -67,12 +62,12 @@ export default function FeaturesSection() {
             alive. Miss a day and you start over — the pressure is real.
           </p>
 
-          <div className="flex-1 bg-background/60 rounded-xl p-4 border border-white/5">
+          <div className="flex-1 bg-muted/30 rounded-xl p-4 border border-border">
             <div className="flex items-center justify-between mb-4">
               <span className="text-xs font-mono text-muted-foreground">
                 Current Streak
               </span>
-              <span className="text-2xl font-extrabold text-white font-mono">
+              <span className="text-2xl font-extrabold text-foreground font-mono">
                 47 🔥
               </span>
             </div>
@@ -81,10 +76,10 @@ export default function FeaturesSection() {
                 const intensity =
                   i < 26 ? (i % 3 === 0 ? 3 : i % 3 === 1 ? 2 : 1) : 0;
                 const colors = [
-                  "bg-white/5",
-                  "bg-accent/25",
-                  "bg-accent/55",
-                  "bg-accent",
+                  "bg-primary dark:bg-muted",
+                  "bg-primary/70 dark:bg-accent/25",
+                  "bg-primary/50 dark:bg-accent/55",
+                  "bg-primary dark:bg-accent shadow-[0_0_6px_rgba(59,130,246,0.5)]",
                 ];
                 return (
                   <div
@@ -94,11 +89,11 @@ export default function FeaturesSection() {
                 );
               })}
             </div>
-            <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
+            <div className="mt-4 pt-3 border-t border-border flex items-center justify-between">
               <span className="text-xs text-muted-foreground font-body">
                 Best streak
               </span>
-              <span className="text-sm font-bold text-white font-mono">
+              <span className="text-sm font-bold text-foreground font-mono">
                 63 days
               </span>
             </div>
@@ -111,13 +106,13 @@ export default function FeaturesSection() {
               variant="solid"
               className="text-emerald-400"
             />
-            <span className="text-xs text-white/60 font-body">
+            <span className="text-xs text-muted-foreground font-body">
               Auto-synced from Codeforces submissions
             </span>
           </div>
         </div>
 
-        <div className="spotlight-card rounded-2xl p-6 border border-white/6 bg-card animate-on-scroll opacity-100 scroll-anim-3 flex flex-col justify-between min-h-65">
+        <div className="spotlight-card rounded-2xl p-6 border border-border bg-card animate-on-scroll opacity-100 scroll-anim-3 flex flex-col justify-between min-h-65">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-yellow-400/10 flex items-center justify-center border border-yellow-400/20">
@@ -132,12 +127,12 @@ export default function FeaturesSection() {
                 <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
                   02
                 </span>
-                <h3 className="text-lg font-bold text-white">
+                <h3 className="text-lg font-bold text-foreground">
                   Global Leaderboard
                 </h3>
               </div>
             </div>
-            <span className="text-[10px] font-mono text-accent bg-accent/10 px-2 py-1 rounded-full">
+            <span className="text-[10px] font-mono text-primary dark:text-accent bg-primary/10 dark:bg-accent/10 px-2 py-1 rounded-full">
               LIVE
             </span>
           </div>
@@ -165,7 +160,7 @@ export default function FeaturesSection() {
                 rank: "#47",
                 name: "you",
                 pts: "1,240 pts",
-                color: "text-accent",
+                color: "text-primary dark:text-accent",
                 self: true,
               },
             ]?.map((r) => (
@@ -173,15 +168,17 @@ export default function FeaturesSection() {
                 key={r?.name}
                 className={`flex items-center justify-between px-3 py-2 rounded-lg text-sm ${
                   r?.self
-                    ? "bg-accent/10 border border-accent/20"
-                    : "bg-white/3"
+                    ? "bg-primary/40 dark:bg-accent/10 border border-accent/20"
+                    : "bg-primary/10 dark:bg-muted/50"
                 }`}
               >
                 <span className={`font-mono font-bold w-8 ${r?.color}`}>
                   {r?.rank}
                 </span>
                 <span
-                  className={`flex-1 font-semibold ${r?.self ? "text-accent" : "text-white/80"}`}
+                  className={`flex-1 font-semibold ${
+                    r?.self ? "text-accent" : "text-foreground/80"
+                  }`}
                 >
                   {r?.name}
                 </span>
@@ -193,7 +190,7 @@ export default function FeaturesSection() {
           </div>
         </div>
 
-        <div className="spotlight-card rounded-2xl p-6 border border-white/6 bg-card animate-on-scroll opacity-100 scroll-anim-4 flex flex-col justify-between min-h-65">
+        <div className="spotlight-card rounded-2xl p-6 border border-border bg-card animate-on-scroll opacity-100 scroll-anim-4 flex flex-col justify-between min-h-65">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 rounded-xl bg-emerald-400/10 flex items-center justify-center border border-emerald-400/20">
               <Icon
@@ -207,7 +204,7 @@ export default function FeaturesSection() {
               <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
                 03
               </span>
-              <h3 className="text-lg font-bold text-white">
+              <h3 className="text-lg font-bold text-foreground">
                 Point Scoring System
               </h3>
             </div>
@@ -243,10 +240,10 @@ export default function FeaturesSection() {
                 <span className="text-xs font-mono text-muted-foreground w-24 shrink-0">
                   {p?.label}
                 </span>
-                <div className="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
+                <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
                   <div className={`h-full rounded-full ${p?.color} ${p?.w}`} />
                 </div>
-                <span className="text-xs font-mono text-white font-bold w-16 text-right">
+                <span className="text-xs font-mono text-foreground font-bold w-16 text-right">
                   {p?.pts}
                 </span>
               </div>
@@ -254,7 +251,109 @@ export default function FeaturesSection() {
           </div>
         </div>
 
-        <div className="spotlight-card md:col-span-2 rounded-2xl p-6 border border-white/6 bg-card animate-on-scroll opacity-100 scroll-anim-5 flex flex-col md:flex-row gap-8">
+        <div className="spotlight-card md:col-span-2 rounded-2xl p-6 border border-border bg-card animate-on-scroll opacity-100 scroll-anim-5 flex flex-col md:flex-row gap-8">
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-orange-400/10 flex items-center justify-center border border-orange-400/20">
+                <Icon
+                  name="RocketLaunchIcon"
+                  size={20}
+                  variant="solid"
+                  className="text-orange-400"
+                />
+              </div>
+              <div>
+                <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
+                  04
+                </span>
+                <h3 className="text-lg font-bold text-foreground">
+                  Personalized Practice
+                </h3>
+              </div>
+            </div>
+
+            <p className="text-sm text-muted-foreground font-body leading-relaxed mb-6 max-w-md">
+              Target specific tags like DP, Graphs, or Math. Generate custom
+              sets at your ideal difficulty to drill your weaknesses and level
+              up your ranking.
+            </p>
+
+            <div className="flex flex-wrap gap-2">
+              {[
+                "Targeted tags",
+                "Difficulty filters",
+                "Session analytics",
+              ]?.map((tag) => (
+                <span
+                  key={tag}
+                  className="text-xs font-medium text-muted-foreground bg-muted border border-border px-3 py-1 rounded-full"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex-1 space-y-2">
+            {[
+              {
+                title: "Dynamic Programming",
+                level: "1600-1800",
+                solved: "4/5",
+                color: "text-blue-400",
+              },
+              {
+                title: "Graph Theory",
+                level: "1400-1600",
+                solved: "2/5",
+                color: "text-emerald-400",
+              },
+              {
+                title: "Number Theory",
+                level: "1200-1400",
+                solved: "5/5",
+                color: "text-purple-400",
+              },
+            ]?.map((p) => (
+              <div
+                key={p?.title}
+                className="flex items-center justify-between p-3 rounded-lg bg-primary/5 dark:bg-muted/30 border border-border"
+              >
+                <div className="flex flex-col">
+                  <span className="text-xs font-bold text-foreground">
+                    {p?.title}
+                  </span>
+                  <span className="text-[10px] text-muted-foreground font-mono">
+                    Rating {p?.level}
+                  </span>
+                </div>
+                <div className="flex flex-col items-end">
+                  <span className={`text-[11px] font-bold ${p?.color}`}>
+                    {p?.solved}
+                  </span>
+                  <div className="w-16 h-1 bg-muted rounded-full mt-1">
+                    <div
+                      className={`h-full rounded-full ${p?.color?.replace(
+                        "text",
+                        "bg"
+                      )} w-[${
+                        (parseInt(p?.solved[0]) / parseInt(p?.solved[2])) * 100
+                      }%]`}
+                      style={{
+                        width: `${
+                          (parseInt(p?.solved[0]) / parseInt(p?.solved[2])) *
+                          100
+                        }%`,
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="spotlight-card md:col-span-2 rounded-2xl p-6 border border-border bg-card animate-on-scroll opacity-100 scroll-anim-6 flex flex-col md:flex-row gap-8">
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-xl bg-purple-400/10 flex items-center justify-center border border-purple-400/20">
@@ -267,9 +366,9 @@ export default function FeaturesSection() {
               </div>
               <div>
                 <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
-                  04
+                  05
                 </span>
-                <h3 className="text-lg font-bold text-white">
+                <h3 className="text-lg font-bold text-foreground">
                   Organization & Team Management
                 </h3>
               </div>
@@ -286,7 +385,7 @@ export default function FeaturesSection() {
               ]?.map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs font-medium text-white/70 bg-white/5 border border-white/10 px-3 py-1 rounded-full"
+                  className="text-xs font-medium text-muted-foreground bg-muted border border-border px-3 py-1 rounded-full"
                 >
                   {tag}
                 </span>
@@ -294,9 +393,9 @@ export default function FeaturesSection() {
             </div>
           </div>
 
-          <div className="flex-1 bg-background/60 rounded-xl p-4 border border-white/5">
+          <div className="flex-1 bg-primary/5 dark:bg-muted/30 rounded-xl p-4 border border-border">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-semibold text-white">
+              <span className="text-xs font-semibold text-foreground">
                 ICPC Team Alpha
               </span>
               <span className="text-[10px] font-mono text-muted-foreground">
@@ -335,14 +434,14 @@ export default function FeaturesSection() {
                     {m?.name?.[0]}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <span className="text-xs font-semibold text-white truncate block">
+                    <span className="text-xs font-semibold text-foreground truncate block">
                       {m?.name}
                     </span>
                     <span className="text-[10px] text-muted-foreground font-mono">
                       {m?.streak}d streak
                     </span>
                   </div>
-                  <span className="text-xs font-mono font-bold text-white">
+                  <span className="text-xs font-mono font-bold text-foreground">
                     {m?.pts}
                   </span>
                 </div>

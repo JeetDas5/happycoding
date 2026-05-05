@@ -15,7 +15,7 @@ export default function RatingCard() {
       </div>
 
       <div className="flex items-baseline gap-2 mb-3">
-        <span className="text-3xl font-extrabold text-white font-mono">
+        <span className="text-3xl font-extrabold text-foreground font-mono">
           1,847
         </span>
         <span className="text-sm text-muted-foreground font-body">Expert</span>
@@ -47,7 +47,7 @@ export default function RatingCard() {
               <stop offset="100%" stopColor="#3B82F6" stopOpacity="0" />
             </linearGradient>
           </defs>
-          <circle cx="480" cy="25" r="4" fill="#fff" />
+          <circle cx="480" cy="25" r="4" fill="currentColor" className="text-foreground" />
           <circle
             cx="480"
             cy="25"

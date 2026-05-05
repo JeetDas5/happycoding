@@ -4,7 +4,7 @@ const entries = [
   { rank: 1, handle: 'tourist', rating: 3979, delta: '+42', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face', color: 'text-yellow-400' },
   { rank: 2, handle: 'neal_wu', rating: 3668, delta: '+18', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face', color: 'text-slate-300' },
   { rank: 3, handle: 'Petr', rating: 3629, delta: '+11', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face', color: 'text-amber-600' },
-  { rank: 4, handle: 'you', rating: 1847, delta: '+7', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop&crop=face', color: 'text-accent' },
+  { rank: 4, handle: 'you', rating: 1847, delta: '+7', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop&crop=face', color: 'text-primary dark:text-accent' },
 ];
 
 export default function LeaderboardCard() {
@@ -19,10 +19,10 @@ export default function LeaderboardCard() {
           <div
             key={e?.handle}
             className={`flex items-center gap-3 p-2 rounded-xl transition-colors ${
-              e?.handle === 'you' ?'bg-accent/10 border border-accent/20' :'hover:bg-white/5'
+              e?.handle === 'you' ?'bg-accent/10 border border-accent/20' :'hover:bg-muted'
             }`}
           >
-            <span className={`text-xs font-bold font-mono w-5 text-center ${e?.color}`}>
+            <span className={`text-xs font-bold font-mono w-5 text-center  ${e?.color}`}>
               {e?.rank}
             </span>
             <div className="w-7 h-7 rounded-full overflow-hidden shrink-0">
@@ -34,7 +34,7 @@ export default function LeaderboardCard() {
                 className="w-full h-full object-cover"
               />
             </div>
-            <span className={`text-sm font-semibold flex-1 ${e?.handle === 'you' ? 'text-accent' : 'text-white/90'}`}>
+            <span className={`text-sm font-semibold flex-1 ${e?.handle === 'you' ? 'text-primary' : 'text-foreground/90'}`}>
               {e?.handle}
             </span>
             <span className="text-xs font-mono text-muted-foreground">{e?.rating}</span>

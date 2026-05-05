@@ -50,13 +50,13 @@ export default function HowItWorksSection() {
         className="absolute -top-22 left-1/2 -translate-x-1/2 pointer-events-none select-none text-center w-full"
         style={{
           maskImage:
-            "linear-gradient(180deg, transparent, black 10%, black 70%, transparent)",
+            "linear-gradient(180deg, transparent, currentColor 10%, currentColor 70%, transparent)",
           WebkitMaskImage:
-            "linear-gradient(180deg, transparent, black 10%, black 70%, transparent)",
+            "linear-gradient(180deg, transparent, currentColor 10%, currentColor 70%, transparent)",
         }}
       >
         <span
-          className="font-extrabold text-white/2.5 tracking-tighter whitespace-nowrap"
+          className="font-extrabold text-foreground/[0.025] tracking-tighter whitespace-nowrap"
           style={{ fontSize: "clamp(3rem, 11vw, 11rem)" }}
         >
           Get Started
@@ -68,7 +68,7 @@ export default function HowItWorksSection() {
           <span className="w-1 h-1 rounded-full bg-accent" />
           Setup in 2 minutes
         </span>
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.05] mb-4">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight leading-[1.05] mb-4">
           Connect once, compete forever
         </h2>
         <p className="text-base md:text-lg text-muted-foreground font-body font-light max-w-xl mx-auto">
@@ -81,7 +81,7 @@ export default function HowItWorksSection() {
         {steps.map((step, i) => (
           <div
             key={step.num}
-            className={`spotlight-card rounded-2xl p-7 border border-white/6 bg-card animate-on-scroll opacity-100 flex flex-col gap-5 scroll-anim-${i + 2} ${
+            className={`spotlight-card rounded-2xl p-7 border border-border bg-card animate-on-scroll opacity-100 flex flex-col gap-5 scroll-anim-${i + 2} ${
               i === 1 ? "md:mt-8" : i === 2 ? "md:mt-4" : ""
             }`}
           >
@@ -102,7 +102,7 @@ export default function HowItWorksSection() {
             </div>
 
             <div>
-              <h3 className="text-xl font-bold text-white mb-2 tracking-tight">
+              <h3 className="text-xl font-bold text-foreground mb-2 tracking-tight">
                 {step.title}
               </h3>
               <p className="text-sm text-muted-foreground font-body leading-relaxed">
@@ -124,7 +124,7 @@ export default function HowItWorksSection() {
             </div>
 
             {i < steps.length - 1 && (
-              <div className="hidden md:flex absolute -right-3.5 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-muted border border-white/10 items-center justify-center">
+              <div className="hidden md:flex absolute -right-3.5 top-1/2 -translate-y-1/2 z-20 w-7 h-7 rounded-full bg-muted border border-border items-center justify-center">
                 <Icon
                   name="ArrowRightIcon"
                   size={12}
@@ -141,7 +141,7 @@ export default function HowItWorksSection() {
           Already on Codeforces?{" "}
           <Link
             href="/signup"
-            className="text-accent font-semibold hover:underline underline-offset-2 transition-colors"
+            className="text-primary font-semibold hover:underline underline-offset-2 transition-colors"
           >
             Connect your account in 2 minutes →
           </Link>

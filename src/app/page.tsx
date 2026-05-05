@@ -9,7 +9,7 @@ import Footer from "@/components/footer";
 
 export default function LandingPage() {
   return (
-    <div className="relative min-h-screen bg-background overflow-x-hidden selection:bg-primary/30 selection:text-white">
+    <div className="relative min-h-screen bg-background overflow-x-hidden selection:bg-primary/30 selection:text-primary">
       <div
         className="fixed inset-0 pointer-events-none z-0"
         style={{
@@ -24,13 +24,13 @@ export default function LandingPage() {
 
       {/* Falling beam lines */}
       <div className="fixed inset-0 flex justify-between pointer-events-none z-0 px-6 md:px-24">
-        <div className="relative w-px h-full bg-white/2 overflow-hidden">
+        <div className="relative w-px h-full bg-border/20 overflow-hidden">
           <div className="animate-beam absolute w-px h-32 bg-linear-to-b from-transparent via-accent/40 to-transparent" />
         </div>
-        <div className="hidden md:block w-px h-full bg-white/2 overflow-hidden absolute left-1/2 -translate-x-1/2">
+        <div className="hidden md:block w-px h-full bg-border/20 overflow-hidden absolute left-1/2 -translate-x-1/2">
           <div className="animate-beam-delay-1 absolute w-px h-32 bg-linear-to-b from-transparent via-accent/40 to-transparent" />
         </div>
-        <div className="relative w-px h-full bg-white/2 overflow-hidden">
+        <div className="relative w-px h-full bg-border/20 overflow-hidden">
           <div className="animate-beam-delay-2 absolute w-px h-32 bg-linear-to-b from-transparent via-accent/40 to-transparent" />
         </div>
       </div>

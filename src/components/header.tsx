@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import AppLogo from "@/components/ui/AppLogo";
 import Link from "next/link";
 import Icon from "@/components/ui/AppIcon";
+import { ModeToggle } from "@/components/theme-toggle";
 
 const navLinks = [
   { label: "Features", href: "#features" },
@@ -47,10 +48,10 @@ export default function Header() {
             className="flex items-center gap-2 pl-1 pr-2"
             aria-label="HappyCoding home"
           >
-            <div className="flex items-center justify-center w-9 h-9 rounded-full bg-linear-to-br from-accent/20 to-primary/10 border border-white/10">
+            <div className="flex items-center justify-center w-9 h-9 rounded-full bg-linear-to-br from-accent/20 to-primary/10 border border-border/50">
               <AppLogo size={22} />
             </div>
-            <span className="text-sm font-bold tracking-tight text-white hidden sm:block">
+            <span className="text-sm font-bold tracking-tight text-foreground hidden sm:block">
               HappyCoding
             </span>
           </Link>
@@ -60,36 +61,41 @@ export default function Header() {
               <Link
                 key={link?.label}
                 href={link?.href}
-                className="text-[13px] font-medium text-white/60 hover:text-white transition-colors px-3 py-2 rounded-full hover:bg-white/5"
+                className="text-[13px] font-medium text-muted-foreground hover:text-foreground transition-colors px-3 py-2 rounded-full hover:bg-muted/50"
               >
                 {link?.label}
               </Link>
             ))}
           </div>
 
-          <Link
-            href="/signup"
-            className="group relative flex items-center gap-2 bg-primary hover:bg-accent transition-all duration-300 rounded-full px-4 py-2 overflow-hidden"
-          >
-            <span className="text-sm font-semibold text-white relative z-10">
-              Join
-            </span>
-            <Icon
-              name="ArrowRightIcon"
-              size={14}
-              className="text-white relative z-10 group-hover:translate-x-0.5 transition-transform"
-            />
-          </Link>
+          <div className="flex items-center gap-1">
+            <div className="hidden sm:block mr-1">
+              <ModeToggle />
+            </div>
+            <Link
+              href="/signup"
+              className="group relative flex items-center gap-2 bg-primary hover:bg-accent transition-all duration-300 rounded-full px-4 py-2 overflow-hidden"
+            >
+              <span className="text-sm font-semibold text-white relative z-10">
+                Join
+              </span>
+              <Icon
+                name="ArrowRightIcon"
+                size={14}
+                className="text-white relative z-10 group-hover:translate-x-0.5 transition-transform"
+              />
+            </Link>
+          </div>
 
           <button
-            className="md:hidden ml-1 w-9 h-9 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors"
+            className="md:hidden ml-1 w-9 h-9 flex items-center justify-center rounded-full hover:bg-muted/50 transition-colors"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
           >
             <Icon
               name={menuOpen ? "XMarkIcon" : "Bars3Icon"}
               size={20}
-              className="text-white"
+              className="text-foreground"
             />
           </button>
         </div>
@@ -103,7 +109,7 @@ export default function Header() {
             <Link
               key={link?.label}
               href={link?.href}
-              className="text-2xl font-semibold text-white hover:text-accent transition-colors"
+              className="text-2xl font-semibold text-foreground hover:text-primary transition-colors"
               onClick={handleLinkClick}
             >
               {link?.label}

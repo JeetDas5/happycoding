@@ -15,7 +15,7 @@ export default function CTASection() {
       className="max-w-7xl mx-auto px-6 md:px-12 py-24 relative"
       aria-label="Join HappyCoding call to action"
     >
-      <div className="relative rounded-3xl border border-white/8 bg-linear-to-br from-primary/20 via-card to-accent/10 overflow-hidden p-10 md:p-16 animate-on-scroll opacity-100 scroll-anim-1">
+      <div className="relative rounded-3xl border border-border bg-linear-to-br from-primary/20 via-card to-accent/10 overflow-hidden p-10 md:p-16 animate-on-scroll opacity-100 scroll-anim-1">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-px bg-linear-to-r from-transparent via-accent/60 to-transparent" />
 
         <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[80px] pointer-events-none" />
@@ -23,17 +23,17 @@ export default function CTASection() {
 
         <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-12">
           <div className="flex-1 max-w-xl">
-            <span className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-accent mb-6">
+            <span className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground dark:text-accent mb-6">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-muted-foreground dark:bg-accent opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-muted-foreground dark:bg-accent" />
               </span>
               1,200+ coders already competing
             </span>
 
-            <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.05] mb-4">
-              <span className="text-white/50">Ready to stop</span>
-              <span className="text-white block">solving alone?</span>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-foreground tracking-tight leading-[1.05] mb-4">
+              <span className="text-foreground/50">Ready to stop</span>
+              <span className="text-foreground block">solving alone?</span>
             </h2>
 
             <p className="text-base md:text-lg text-muted-foreground font-body font-light leading-relaxed mb-8 max-w-md">
@@ -50,7 +50,9 @@ export default function CTASection() {
                     variant="solid"
                     className="text-emerald-400 shrink-0"
                   />
-                  <span className="text-sm text-white/70 font-body">{p}</span>
+                  <span className="text-sm text-muted-foreground font-body">
+                    {p}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -58,7 +60,7 @@ export default function CTASection() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/signup"
-                className="group relative flex items-center justify-center gap-3 rounded-full pl-3 py-2 pr-9 overflow-hidden border border-white/10 bg-linear-to-b from-white/6 via-white/2 to-white/6 backdrop-blur-xl hover:bg-primary/10 transition-all duration-300"
+                className="group relative flex items-center justify-center gap-3 rounded-full pl-3 py-2 pr-9 overflow-hidden border border-border bg-linear-to-b from-primary/10 via-white to-primary/10 dark:from-muted/20 dark:via-muted/5 dark:to-muted/20 backdrop-blur-xl hover:bg-primary/10 transition-all duration-300"
               >
                 <div
                   className="absolute inset-0 rounded-full pointer-events-none"
@@ -82,20 +84,20 @@ export default function CTASection() {
                 <div className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-white shadow-lg shadow-primary/30">
                   <Icon name="BoltIcon" size={18} variant="solid" />
                 </div>
-                <span className="relative z-10 text-base font-bold text-white tracking-wide">
+                <span className="relative z-10 text-base font-bold text-foreground tracking-wide">
                   Join
                 </span>
               </Link>
 
               <Link
                 href="#features"
-                className="flex items-center justify-center gap-2 glass-card rounded-full px-6 py-3 text-sm font-medium text-white/70 hover:text-white transition-colors"
+                className="flex items-center justify-center gap-2 glass-card rounded-full px-6 py-3 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
                 Explore features
                 <Icon
                   name="ArrowRightIcon"
                   size={14}
-                  className="text-accent group-hover:translate-x-0.5 transition-transform"
+                  className="text-muted-foreground dark:text-accent group-hover:translate-x-0.5 transition-transform"
                 />
               </Link>
             </div>
@@ -103,7 +105,7 @@ export default function CTASection() {
 
           <div className="w-full lg:w-auto lg:min-w-75 glass-card rounded-2xl p-6">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-semibold text-white uppercase tracking-wider">
+              <span className="text-xs font-semibold text-foreground uppercase tracking-wider">
                 Live Activity
               </span>
               <span className="flex items-center gap-1.5">
@@ -151,7 +153,7 @@ export default function CTASection() {
                   >
                     {a?.user}
                   </span>
-                  <span className="flex-1 text-white/60 font-body truncate">
+                  <span className="flex-1 text-muted-foreground font-body truncate">
                     {a?.action}
                   </span>
                   <span className="font-mono text-emerald-400 shrink-0">
@@ -164,9 +166,9 @@ export default function CTASection() {
               ))}
             </div>
 
-            <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-xs text-muted-foreground font-mono">
+            <div className="mt-4 pt-3 border-t border-border flex items-center justify-between text-xs text-muted-foreground font-mono">
               <span>Active now</span>
-              <span className="text-white font-bold">347 coders</span>
+              <span className="text-foreground font-bold">347 coders</span>
             </div>
           </div>
         </div>
