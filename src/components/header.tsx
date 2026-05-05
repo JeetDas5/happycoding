@@ -74,7 +74,7 @@ export default function Header() {
             </div>
             <Link
               href="/signup"
-              className="group relative flex items-center gap-2 bg-primary hover:bg-accent transition-all duration-300 rounded-full px-4 py-2 overflow-hidden"
+              className="group relative flex items-center gap-2 bg-primary hover:bg-primary/70 transition-all duration-300 rounded-full px-4 py-2 overflow-hidden"
             >
               <span className="text-sm font-semibold text-white relative z-10">
                 Join
@@ -115,13 +115,19 @@ export default function Header() {
               {link?.label}
             </Link>
           ))}
-          <Link
-            href="#cta"
-            className="mt-4 bg-primary text-white font-bold px-8 py-4 rounded-full text-lg hover:bg-accent transition-colors"
-            onClick={handleLinkClick}
-          >
-            Join HappyCoding
-          </Link>
+          <div className="flex flex-col items-center gap-4 mt-4 w-full px-8">
+            <Link
+              href="#cta"
+              className="w-full text-center bg-primary text-white font-bold px-8 py-4 rounded-full text-lg hover:bg-accent transition-colors"
+              onClick={handleLinkClick}
+            >
+              Join HappyCoding
+            </Link>
+            <div className="flex items-center gap-3 pt-4 border-t border-border w-full justify-center">
+              <span className="text-sm text-muted-foreground">Appearance:</span>
+              <ModeToggle />
+            </div>
+          </div>
         </div>
       )}
     </>
