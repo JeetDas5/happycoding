@@ -1,9 +1,10 @@
 import React from "react";
-import type { Metadata, Viewport } from "next";
-import { Plus_Jakarta_Sans, Manrope, JetBrains_Mono } from "next/font/google";
 import "../styles/tailwind.css";
+import type { Metadata, Viewport } from "next";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "@/components/theme-provider";
+import { Plus_Jakarta_Sans, Manrope, JetBrains_Mono } from "next/font/google";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -70,6 +71,7 @@ export default function RootLayout({
           {children}
         </ThemeProvider>
         <Toaster position="bottom-right" duration={3000} />
+        <Analytics />
       </body>
     </html>
   );
