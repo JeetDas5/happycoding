@@ -2,6 +2,9 @@
 
 A full-stack web application built with Next.js that gamifies competitive programming practice through streaks, points, and leaderboards. Users can sync their Codeforces accounts, track their daily problem-solving progress, and compete with others in the HappyCoding community.
 
+## Deployed URL
+[https://happycoding.jeetdas.site](https://happycoding.jeetdas.site)
+
 ## Table of Contents
 
 - [Features](#features)

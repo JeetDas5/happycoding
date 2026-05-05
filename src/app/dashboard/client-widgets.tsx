@@ -322,7 +322,7 @@ export function LeaveOrgButton({ orgId }: { orgId: string }) {
 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogTrigger asChild>
+      <AlertDialogTrigger>
         <Button
           variant="ghost"
           size="sm"
