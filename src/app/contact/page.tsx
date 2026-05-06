@@ -4,11 +4,13 @@ import Header from "@/components/header";
 import SpotlightInit from "@/app/components/SpotlightInit";
 import ScrollAnimInit from "@/app/components/ScrollAnimInit";
 import ContactForm from "@/components/contact-form";
+import { checkHealthStatus } from "@/actions/heath.actions";
 
 export default async function ContactPage() {
+  const status = await checkHealthStatus();
+
   return (
     <div className="relative min-h-screen bg-background overflow-x-hidden selection:bg-primary/30 selection:text-primary">
-      {/* Background Gradients */}
       <div
         className="fixed inset-0 pointer-events-none z-0"
         style={{
@@ -89,8 +91,17 @@ export default async function ContactPage() {
                         Status
                       </p>
                       <p className="font-medium text-emerald-500 flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                        All systems operational
+                        {status === 200 ? (
+                          <>
+                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            All systems operational
+                          </>
+                        ) : (
+                          <>
+                            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                            We&apos;ll be back soon
+                          </>
+                        )}
                       </p>
                     </div>
                   </div>
