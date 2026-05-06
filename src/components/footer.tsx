@@ -13,10 +13,10 @@ export default function Footer() {
         </div>
 
         <nav className="flex items-center gap-6 flex-wrap justify-center">
-          {["Features", "Leaderboard", "How It Works"]?.map((item) => (
+          {["Features", "Leaderboard", "How It Works", "Contact"]?.map((item) => (
             <Link
               key={item}
-              href={`#${item?.toLowerCase()?.replace(/\s+/g, "-")}`}
+              href={item === "Contact" ? "/contact" : `/#${item?.toLowerCase()?.replace(/\s+/g, "-")}`}
               className="text-[14px] font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               {item}

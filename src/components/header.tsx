@@ -7,9 +7,10 @@ import Icon from "@/components/ui/AppIcon";
 import { ModeToggle } from "@/components/theme-toggle";
 
 const navLinks = [
-  { label: "Features", href: "#features" },
-  { label: "Leaderboard", href: "#social-proof" },
-  { label: "How It Works", href: "#how-it-works" },
+  { label: "Features", href: "/#features" },
+  { label: "Leaderboard", href: "/#social-proof" },
+  { label: "Working", href: "/#how-it-works" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function Header() {
