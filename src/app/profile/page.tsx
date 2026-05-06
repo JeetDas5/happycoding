@@ -92,10 +92,39 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background overflow-hidden">
         <DashboardNavbar />
-        <div className="container mx-auto px-4 py-8">
-          <p className="text-sm text-muted-foreground">Loading profile...</p>
+        <div className="fixed top-0 left-1/2 -translate-x-1/2 w-7xl h-200 bg-primary/5 rounded-full blur-[120px] pointer-events-none z-0 animate-pulse" />
+
+        <div className="container relative z-10 mx-auto px-4 py-8 space-y-8">
+          <div className="space-y-3">
+            <div className="h-8 w-64 bg-muted/40 rounded-lg animate-pulse" />
+            <div className="h-4 w-96 bg-muted/20 rounded-md animate-pulse" />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+            {[1, 2, 3, 4].map((i) => (
+              <div
+                key={i}
+                className="h-24 bg-card border border-border/50 rounded-2xl animate-pulse"
+              />
+            ))}
+          </div>
+
+          <div className="h-48 w-full bg-muted/10 border border-border/40 rounded-3xl animate-pulse flex flex-col p-6 gap-4">
+            <div className="h-6 w-48 bg-muted/40 rounded-lg" />
+            <div className="flex-1 w-full bg-muted/20 rounded-xl" />
+          </div>
+
+          <div className="space-y-4">
+            <div className="h-6 w-32 bg-muted/40 rounded-lg animate-pulse" />
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="h-24 w-full bg-muted/5 border border-border/30 rounded-2xl animate-pulse"
+              />
+            ))}
+          </div>
         </div>
       </div>
     );
