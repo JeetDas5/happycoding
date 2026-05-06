@@ -3,7 +3,7 @@ import AppLogo from "@/components/ui/AppLogo";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-border mt-24">
+    <footer className="border-t border-border">
       <div className="max-w-7xl mx-auto px-6 md:px-12 pt-10 pb-5 flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-2">
           <AppLogo size={28} />
@@ -13,10 +13,10 @@ export default function Footer() {
         </div>
 
         <nav className="flex items-center gap-6 flex-wrap justify-center">
-          {["Features", "Leaderboard", "How It Works", "Contact"]?.map((item) => (
+          {["Features", "Leaderboard", "How It Works", "Contact", "Terms"]?.map((item) => (
             <Link
               key={item}
-              href={item === "Contact" ? "/contact" : `/#${item?.toLowerCase()?.replace(/\s+/g, "-")}`}
+              href={item === "Contact" ? "/contact" : item === "Terms" ? "/terms" : `/#${item?.toLowerCase()?.replace(/\s+/g, "-")}`}
               className="text-[14px] font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
               {item}

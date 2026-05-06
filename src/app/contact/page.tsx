@@ -1,7 +1,6 @@
 "use server";
 
 import Header from "@/components/header";
-import Footer from "@/components/footer";
 import SpotlightInit from "@/app/components/SpotlightInit";
 import ScrollAnimInit from "@/app/components/ScrollAnimInit";
 import ContactForm from "@/components/contact-form";
@@ -108,7 +107,6 @@ export default async function ContactPage() {
         </div>
       </main>
 
-      <Footer />
       <SpotlightInit />
       <ScrollAnimInit />
     </div>

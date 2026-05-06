@@ -5,7 +5,6 @@ import CTASection from "@/app/components/CTASection";
 import SpotlightInit from "@/app/components/SpotlightInit";
 import ScrollAnimInit from "@/app/components/ScrollAnimInit";
 import Header from "@/components/header";
-import Footer from "@/components/footer";
 
 export default function LandingPage() {
   return (
@@ -43,9 +42,6 @@ export default function LandingPage() {
         <HowItWorksSection />
         <CTASection />
       </main>
-
-      <Footer />
-
       <SpotlightInit />
       <ScrollAnimInit />
     </div>

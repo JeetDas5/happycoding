@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Plus_Jakarta_Sans, Manrope, JetBrains_Mono } from "next/font/google";
+import Footer from "@/components/footer";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -69,6 +70,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Footer />
         </ThemeProvider>
         <Toaster position="bottom-right" duration={3000} />
         <Analytics />

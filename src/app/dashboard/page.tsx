@@ -220,7 +220,6 @@ export default async function DashboardPage() {
               </CardContent>
             </Card>
 
-            {/* Codeforces Integration */}
             <Card className="py-2">
               <CardHeader className="pb-2">
                 <CardTitle className="text-base font-semibold">
@@ -240,7 +239,6 @@ export default async function DashboardPage() {
               </CardContent>
             </Card>
 
-            {/* Recent Submissions */}
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="text-base font-semibold flex items-center gap-2">
@@ -295,7 +293,6 @@ export default async function DashboardPage() {
             </Card>
           </div>
 
-          {/* Right Column */}
           <div className="space-y-6">
             <LeaderboardWidget
               globalLeaderboard={globalLeaderboard}
@@ -303,7 +300,6 @@ export default async function DashboardPage() {
               userId={user?.id}
             />
 
-            {/* Organizations */}
             <Card className="py-2">
               <CardHeader className="pb-3">
                 <CardTitle className="text-base font-semibold flex items-center gap-2">
@@ -365,7 +361,6 @@ export default async function DashboardPage() {
   );
 }
 
-// ─── Stat Card ─────────────────────────────────────────────────────────────────
 function StatCard({
   icon,
   label,

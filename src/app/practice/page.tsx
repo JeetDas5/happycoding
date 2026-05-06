@@ -7,7 +7,6 @@ import {
 } from "@/actions/practice.actions";
 import { useJwtSession } from "@/lib/use-jwt-session";
 import { DashboardNavbar } from "@/components/dashboard-navbar";
-import Footer from "@/components/footer";
 import SpotlightInit from "@/app/components/SpotlightInit";
 import ScrollAnimInit from "@/app/components/ScrollAnimInit";
 import { Button } from "@/components/ui/button";
@@ -426,7 +425,6 @@ export default function PracticePage() {
         </div>
       </main>
 
-      <Footer />
       <SpotlightInit />
       <ScrollAnimInit />
     </div>

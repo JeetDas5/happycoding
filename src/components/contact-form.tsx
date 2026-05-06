@@ -138,7 +138,7 @@ export default function ContactForm() {
 
       <p className="text-center text-xs text-muted-foreground mt-4">
         By sending a message, you agree to our{" "}
-        <a href="#" className="underline hover:text-foreground">
+        <a href="/terms" className="underline hover:text-foreground">
           Terms of Service
         </a>
         .
