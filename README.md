@@ -3,6 +3,7 @@
 A full-stack web application built with Next.js that gamifies competitive programming practice through streaks, points, and leaderboards. Users can sync their Codeforces accounts, track their daily problem-solving progress, and compete with others in the HappyCoding community.
 
 ## Deployed URL
+
 [https://happycoding.jeetdas.site](https://happycoding.jeetdas.site)
 
 ## Table of Contents
@@ -188,7 +189,6 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 # Authentication
 JWT_SECRET=your-secret-key-here
 
-
 # Better Auth
 BETTER_AUTH_SECRET=your-secret
 
@@ -220,10 +220,9 @@ npm run db:studio  # Open Drizzle Studio UI
 
 ### Authentication
 
-- `POST /api/auth/signup` - User registration
-- `POST /api/auth/login` - User login
-- `POST /api/auth/logout` - User logout
-- `POST /api/auth/verify-email` - Verify email token
+- `POST /api/auth/[...all]`   - Login, Signup
+- `POST /api/auth/logout`     - Logout
+- `POST /api/auth/session`    - Get session
 
 ### Cron Jobs
 

@@ -15,7 +15,10 @@ import {
   Trophy,
   Flame,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   DropdownMenu,
@@ -377,6 +380,8 @@ export function LeaderboardWidget({
   userId: string;
 }) {
   const [view, setView] = useState<"global" | string>("global");
+  const [page, setPage] = useState(0);
+  const itemsPerPage = 5;
 
   const activeLeaderboard =
     view === "global"
@@ -387,6 +392,50 @@ export function LeaderboardWidget({
     view === "global"
       ? "Global"
       : orgLeaderboards.find((ol) => ol.orgId === view)?.orgName || "Org";
+
+  const totalPages = Math.ceil(activeLeaderboard.length / itemsPerPage);
+  const paginatedData = activeLeaderboard.slice(
+    page * itemsPerPage,
+    (page + 1) * itemsPerPage
+  );
+
+  const [direction, setDirection] = useState(0); // 1 for right, -1 for left
+
+  const handleNext = () => {
+    if (page < totalPages - 1) {
+      setDirection(1);
+      setPage(page + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (page > 0) {
+      setDirection(-1);
+      setPage(page - 1);
+    }
+  };
+
+  // Reset page when view changes
+  const handleViewChange = (newView: string) => {
+    setView(newView);
+    setPage(0);
+    setDirection(0);
+  };
+
+  const variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 20 : direction < 0 ? -20 : 0,
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => ({
+      x: direction > 0 ? -20 : direction < 0 ? 20 : 0,
+      opacity: 0,
+    }),
+  };
 
   return (
     <Card>
@@ -409,13 +458,13 @@ export function LeaderboardWidget({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-40">
-                <DropdownMenuItem onClick={() => setView("global")}>
+                <DropdownMenuItem onClick={() => handleViewChange("global")}>
                   Global
                 </DropdownMenuItem>
                 {orgLeaderboards.map((ol) => (
                   <DropdownMenuItem
                     key={ol.orgId}
-                    onClick={() => setView(ol.orgId)}
+                    onClick={() => handleViewChange(ol.orgId)}
                   >
                     {ol.orgName}
                   </DropdownMenuItem>
@@ -425,55 +474,99 @@ export function LeaderboardWidget({
           )}
         </div>
       </CardHeader>
-      <CardContent className="p-0">
-        <div>
-          {activeLeaderboard.map((u: any, idx: number) => (
-            <div
-              key={u.id}
-              className={`flex items-center gap-3 px-4 py-3 border-b last:border-0 ${
-                u.id === userId ? "bg-primary/5" : ""
-              }`}
+      <CardContent className="p-0 overflow-hidden relative">
+        <div className="min-h-[300px]">
+          <AnimatePresence mode="wait" initial={false} custom={direction}>
+            <motion.div
+              key={`${view}-${page}`}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.2, ease: "easeInOut" }}
             >
-              <span
-                className={`text-sm font-bold w-6 text-center ${
-                  idx === 0
-                    ? "text-yellow-500"
-                    : idx === 1
-                    ? "text-zinc-400"
-                    : idx === 2
-                    ? "text-orange-500"
-                    : "text-muted-foreground"
-                }`}
-              >
-                {idx + 1}
-              </span>
-              <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold shrink-0">
-                {u.name?.[0]?.toUpperCase()}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p
-                  className={`text-sm font-medium truncate ${
-                    u.id === userId ? "text-primary" : ""
-                  }`}
-                >
-                  {u.name} {u.id === userId && "(you)"}
+              {paginatedData.length > 0 ? (
+                paginatedData.map((u: any, idx: number) => {
+                  const absoluteIdx = page * itemsPerPage + idx;
+                  return (
+                    <div
+                      key={u.id}
+                      className={`flex items-center gap-3 px-4 py-3 border-b last:border-0 ${
+                        u.id === userId ? "bg-primary/5" : ""
+                      }`}
+                    >
+                      <span
+                        className={`text-sm font-bold w-6 text-center ${
+                          absoluteIdx === 0
+                            ? "text-yellow-500"
+                            : absoluteIdx === 1
+                            ? "text-zinc-400"
+                            : absoluteIdx === 2
+                            ? "text-orange-500"
+                            : "text-muted-foreground"
+                        }`}
+                      >
+                        {absoluteIdx + 1}
+                      </span>
+                      <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-bold shrink-0">
+                        {u.name?.[0]?.toUpperCase()}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p
+                          className={`text-sm font-medium truncate ${
+                            u.id === userId ? "text-primary" : ""
+                          }`}
+                        >
+                          {u.name} {u.id === userId && "(you)"}
+                        </p>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="text-sm font-bold">{u.points ?? 0}</p>
+                        <p className="text-xs text-muted-foreground flex items-center gap-1 justify-end">
+                          <Flame className="w-3 h-3 text-orange-400" />
+                          {u.streak ?? 0}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <p className="text-center text-sm text-muted-foreground py-10">
+                  No data yet
                 </p>
-              </div>
-              <div className="text-right shrink-0">
-                <p className="text-sm font-bold">{u.points ?? 0}</p>
-                <p className="text-xs text-muted-foreground flex items-center gap-1 justify-end">
-                  <Flame className="w-3 h-3 text-orange-400" />
-                  {u.streak ?? 0}
-                </p>
-              </div>
-            </div>
-          ))}
-          {activeLeaderboard.length === 0 && (
-            <p className="text-center text-sm text-muted-foreground py-6">
-              No data yet
-            </p>
-          )}
+              )}
+            </motion.div>
+          </AnimatePresence>
         </div>
+
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between px-4 py-2 border-t bg-muted/5">
+            <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">
+              Page {page + 1} of {totalPages}
+            </p>
+            <div className="flex gap-1">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-7 w-7 p-0 cursor-pointer"
+                disabled={page === 0}
+                onClick={handlePrev}
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-7 w-7 p-0 cursor-pointer"
+                disabled={page === totalPages - 1}
+                onClick={handleNext}
+              >
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
