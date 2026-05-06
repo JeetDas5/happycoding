@@ -47,6 +47,7 @@ import {
 } from "./actions";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ITEMS_PER_PAGE } from "@/constants";
 
 interface CFWidgetProps {
   cfHandle: string | null | undefined;
@@ -381,7 +382,7 @@ export function LeaderboardWidget({
 }) {
   const [view, setView] = useState<"global" | string>("global");
   const [page, setPage] = useState(0);
-  const itemsPerPage = 5;
+  const itemsPerPage = ITEMS_PER_PAGE;
 
   const activeLeaderboard =
     view === "global"

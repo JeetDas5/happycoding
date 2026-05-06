@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -25,31 +24,23 @@ import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import Icon from "@/components/ui/AppIcon";
 import { cn } from "@/lib/utils";
+import { ITEMS_PER_PAGE, COMMON_TAGS } from "@/constants";
+import { motion, AnimatePresence } from "framer-motion";
 
-const COMMON_TAGS = [
-  "greedy",
-  "dp",
-  "math",
-  "graphs",
-  "sortings",
-  "data structures",
-  "brute force",
-  "constructive algorithms",
-  "implementation",
-  "binary search",
-  "dfs and similar",
-  "strings",
-  "number theory",
-  "trees",
-  "geometry",
-  "combinatorics",
-  "two pointers",
-];
+interface Problem {
+  id: string;
+  name: string;
+  rating: number | null;
+  tags: string[] | null;
+  contestId: number | null;
+  index: string;
+  url: string;
+}
 
 export default function PracticePage() {
   const { data: session } = useJwtSession();
   const [loading, setLoading] = useState(false);
-  const [problems, setProblems] = useState<any[]>([]);
+  const [problems, setProblems] = useState<Problem[]>([]);
   const [filters, setFilters] = useState<PracticeFilters>({
     minRating: 800,
     maxRating: 1600,
@@ -58,6 +49,44 @@ export default function PracticePage() {
     excludeSolved: true,
   });
 
+  const [page, setPage] = useState(0);
+  const [direction, setDirection] = useState(0); // 1 for right, -1 for left
+
+  const totalPages = Math.ceil(problems.length / ITEMS_PER_PAGE);
+  const paginatedProblems = problems.slice(
+    page * ITEMS_PER_PAGE,
+    (page + 1) * ITEMS_PER_PAGE
+  );
+
+  const handleNext = () => {
+    if (page < totalPages - 1) {
+      setDirection(1);
+      setPage(page + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (page > 0) {
+      setDirection(-1);
+      setPage(page - 1);
+    }
+  };
+
+  const variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 20 : direction < 0 ? -20 : 0,
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => ({
+      x: direction > 0 ? -20 : direction < 0 ? 20 : 0,
+      opacity: 0,
+    }),
+  };
+
   const handleFetchProblems = async () => {
     setLoading(true);
     try {
@@ -65,8 +94,10 @@ export default function PracticePage() {
         ...filters,
         userId: session?.user?.id,
       });
-      setProblems(result.problems);
-      if (result.problems.length === 0) {
+      setProblems(result.problems || []);
+      setPage(0);
+      setDirection(0);
+      if (!result.problems || result.problems.length === 0) {
         toast.info(result.message || "No problems found for these filters.");
       } else {
         toast.success(`Found ${result.problems.length} problems!`);
@@ -256,74 +287,121 @@ export default function PracticePage() {
 
             <div className="lg:col-span-8 space-y-6 hero-anim-4">
               {problems.length > 0 ? (
-                <div className="grid gap-4">
-                  {problems.map((problem) => (
-                    <a
-                      key={problem.id}
-                      href={problem.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group block"
+                <div className="space-y-6">
+                  <div className="min-h-[400px]">
+                    <AnimatePresence
+                      mode="wait"
+                      initial={false}
+                      custom={direction}
                     >
-                      <Card className="spotlight-card glass-card border-border bg-card/40 hover:bg-muted/30 transition-all duration-300 overflow-hidden">
-                        <CardContent className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                          <div className="space-y-3">
-                            <div className="flex items-center gap-3">
-                              <Badge
-                                variant="outline"
-                                className="bg-muted text-foreground/80 border-border"
-                              >
-                                {problem.id}
-                              </Badge>
-                              <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-                                {problem.name}
-                              </h3>
-                            </div>
-                            <div className="flex flex-wrap gap-2">
-                              {problem.tags?.map((tag: string) => (
-                                <Badge
-                                  key={tag}
-                                  variant="secondary"
-                                  className="bg-muted text-muted-foreground border-transparent text-[10px] uppercase tracking-widest"
-                                >
-                                  {tag}
-                                </Badge>
-                              ))}
-                            </div>
-                          </div>
+                      <motion.div
+                        key={page}
+                        custom={direction}
+                        variants={variants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        transition={{ duration: 0.2, ease: "easeInOut" }}
+                        className="grid gap-4"
+                      >
+                        {paginatedProblems.map((problem) => (
+                          <a
+                            key={problem.id}
+                            href={problem.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group block"
+                          >
+                            <Card className="spotlight-card glass-card border-border bg-card/40 hover:bg-muted/30 transition-all duration-300 overflow-hidden">
+                              <CardContent className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                                <div className="space-y-3">
+                                  <div className="flex items-center gap-3">
+                                    <Badge
+                                      variant="outline"
+                                      className="bg-muted text-foreground/80 border-border"
+                                    >
+                                      {problem.id}
+                                    </Badge>
+                                    <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
+                                      {problem.name}
+                                    </h3>
+                                  </div>
+                                  <div className="flex flex-wrap gap-2">
+                                    {problem.tags?.map((tag: string) => (
+                                      <Badge
+                                        key={tag}
+                                        variant="secondary"
+                                        className="bg-muted text-muted-foreground border-transparent text-[10px] uppercase tracking-widest"
+                                      >
+                                        {tag}
+                                      </Badge>
+                                    ))}
+                                  </div>
+                                </div>
 
-                          <div className="flex items-center justify-between md:justify-end gap-6 border-t md:border-0 border-border pt-4 md:pt-0">
-                            <div className="text-center">
-                              <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold mb-1">
-                                Rating
-                              </div>
-                              <div
-                                className={cn(
-                                  "text-lg font-bold",
-                                  problem.rating >= 2000
-                                    ? "text-red-400"
-                                    : problem.rating >= 1600
-                                    ? "text-purple-400"
-                                    : problem.rating >= 1200
-                                    ? "text-cyan-400"
-                                    : "text-green-400"
-                                )}
-                              >
-                                {problem.rating || "N/A"}
-                              </div>
-                            </div>
-                            <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary transition-colors">
-                              <Icon
-                                name="ArrowTopRightOnSquareIcon"
-                                size={18}
-                                className="text-foreground group-hover:text-white"
-                              />
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </a>
-                  ))}
+                                <div className="flex items-center justify-between md:justify-end gap-6 border-t md:border-0 border-border pt-4 md:pt-0">
+                                  <div className="text-center">
+                                    <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold mb-1">
+                                      Rating
+                                    </div>
+                                    <div
+                                      className={cn(
+                                        "text-lg font-bold",
+                                        (problem.rating ?? 0) >= 2000
+                                          ? "text-red-400"
+                                          : (problem.rating ?? 0) >= 1600
+                                          ? "text-purple-400"
+                                          : (problem.rating ?? 0) >= 1200
+                                          ? "text-cyan-400"
+                                          : "text-green-400"
+                                      )}
+                                    >
+                                      {problem.rating || "N/A"}
+                                    </div>
+                                  </div>
+                                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary transition-colors">
+                                    <Icon
+                                      name="ArrowTopRightOnSquareIcon"
+                                      size={18}
+                                      className="text-foreground group-hover:text-white"
+                                    />
+                                  </div>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          </a>
+                        ))}
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
+
+                  {totalPages > 1 && (
+                    <div className="flex items-center justify-between px-6 py-4 rounded-2xl bg-muted/20 border border-border">
+                      <p className="text-xs text-muted-foreground font-medium uppercase tracking-widest">
+                        Page {page + 1} of {totalPages}
+                      </p>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-10 w-10 p-0 rounded-xl bg-card border-border hover:bg-primary hover:text-white hover:border-primary transition-all cursor-pointer disabled:opacity-50"
+                          disabled={page === 0}
+                          onClick={handlePrev}
+                        >
+                          <Icon name="ChevronLeftIcon" size={20} />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-10 w-10 p-0 rounded-xl bg-card border-border hover:bg-primary hover:text-white hover:border-primary transition-all cursor-pointer disabled:opacity-50"
+                          disabled={page === totalPages - 1}
+                          onClick={handleNext}
+                        >
+                          <Icon name="ChevronRightIcon" size={20} />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="h-[400px] flex flex-col items-center justify-center text-center p-12 border-2 border-dashed border-border rounded-3xl bg-muted/20">
