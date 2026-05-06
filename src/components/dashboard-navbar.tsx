@@ -9,6 +9,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { logout } from "@/actions/auth.actions";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 export function DashboardNavbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -44,9 +45,19 @@ export function DashboardNavbar() {
   return (
     <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="text-xl font-bold tracking-tight">
-          Happy<span className="text-primary">Coding</span>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center justify-center gap-2">
+            <Image
+              src="/assets/images/app_logo.png"
+              alt="Logo"
+              width={25}
+              height={25}
+            />
+            <span className="text-xl font-bold tracking-tight">
+              Happy<span className="text-primary">Coding</span>
+            </span>
+          </Link>
+        </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="hidden sm:flex items-center gap-1">
