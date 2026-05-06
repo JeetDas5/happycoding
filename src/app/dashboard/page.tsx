@@ -227,8 +227,8 @@ export default async function DashboardPage() {
                   Codeforces Integration
                 </CardTitle>
                 <CardDescription>
-                  Link your Codeforces handle to auto-track submissions and earn
-                  points.
+                  Link your Codeforces handle to auto-track submissions earn
+                  points and see your rank on leaderboard.
                 </CardDescription>
               </CardHeader>
               <CardContent>

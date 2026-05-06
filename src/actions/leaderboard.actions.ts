@@ -1,15 +1,15 @@
 import db from "@/db";
 import { users, memberships } from "@/db/schema";
-import { desc, asc, eq } from "drizzle-orm";
+import { desc, asc, eq, and } from "drizzle-orm";
 
-export async function getGlobalLeaderboard(limit: number = 10) {
+export async function getGlobalLeaderboard() {
   return await db.query.users.findMany({
+    where: eq(users.cfVerified, true),
     orderBy: [
       desc(users.points),
       desc(users.streak),
       asc(users.lastSolvedDate),
     ],
-    limit,
   });
 }
 
@@ -23,6 +23,6 @@ export async function getOrgLeaderboard(orgId: string) {
     })
     .from(memberships)
     .innerJoin(users, eq(users.id, memberships.userId))
-    .where(eq(memberships.orgId, orgId))
+    .where(and(eq(memberships.orgId, orgId), eq(users.cfVerified, true)))
     .orderBy(desc(users.points), desc(users.streak), asc(users.lastSolvedDate));
 }

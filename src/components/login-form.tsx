@@ -100,7 +100,7 @@ export function LoginForm({ action }: Props) {
           <Button
             type="submit"
             disabled={loading}
-            className="w-full h-11 rounded-xl text-base font-semibold shadow-lg shadow-primary/20"
+            className="w-full h-11 rounded-xl text-base font-semibold shadow-lg shadow-primary/20 cursor-pointer"
           >
             {loading ? (
               <>
