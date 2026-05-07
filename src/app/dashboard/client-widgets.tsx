@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 
 import { useState, useTransition } from "react";
@@ -154,7 +154,11 @@ export function CFWidget({
             </p>
           </div>
           <div className="flex gap-2">
-            <Button onClick={verify} disabled={isPending} className="flex-1">
+            <Button
+              onClick={verify}
+              disabled={isPending}
+              className="flex-1 cursor-pointer"
+            >
               {isPending ? (
                 <Loader2 className="w-4 h-4 animate-spin mr-2" />
               ) : (
@@ -166,6 +170,7 @@ export function CFWidget({
               variant="outline"
               onClick={() => setStep("idle")}
               disabled={isPending}
+              className="cursor-pointer"
             >
               Reset
             </Button>
@@ -376,8 +381,8 @@ export function LeaderboardWidget({
   orgLeaderboards,
   userId,
 }: {
-  globalLeaderboard: any[];
-  orgLeaderboards: any[];
+  globalLeaderboard: LeaderBoardData[];
+  orgLeaderboards: OrgLeaderBoardData[];
   userId: string;
 }) {
   const [view, setView] = useState<"global" | string>("global");
@@ -488,7 +493,7 @@ export function LeaderboardWidget({
               transition={{ duration: 0.2, ease: "easeInOut" }}
             >
               {paginatedData.length > 0 ? (
-                paginatedData.map((u: any, idx: number) => {
+                paginatedData.map((u: LeaderBoardData, idx: number) => {
                   const absoluteIdx = page * itemsPerPage + idx;
                   return (
                     <div

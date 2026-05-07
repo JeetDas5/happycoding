@@ -20,7 +20,15 @@ import {
   getRecentSubmissions,
 } from "@/helper/codeforces";
 
-export async function getDashboardData() {
+export async function getDashboardData(): Promise<{
+  user: User | null;
+  orgs: MembershipWithOrg[];
+  globalLeaderboard: User[];
+  orgLeaderboards: OrgLeaderBoardData[];
+  todayProblem: Problem | null;
+  todayProblemUrl: string | null;
+  recentSubmissions: Submission[];
+} | null> {
   const session = await getSession();
   if (!session) return null;
 

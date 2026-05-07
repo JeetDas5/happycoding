@@ -137,56 +137,28 @@ export default async function DashboardPage() {
                   <div className="space-y-4">
                     <div>
                       <h3 className="font-bold text-lg">
-                        {
-                          (
-                            todayProblem as {
-                              contestId: number;
-                              index: string;
-                              name: string;
-                            }
-                          ).contestId
-                        }
-                        {
-                          (
-                            todayProblem as {
-                              contestId: number;
-                              index: string;
-                              name: string;
-                            }
-                          ).index
-                        }{" "}
-                        —{" "}
-                        {
-                          (
-                            todayProblem as {
-                              contestId: number;
-                              index: string;
-                              name: string;
-                            }
-                          ).name
-                        }
+                        {todayProblem.contestId}
+                        {todayProblem.index} — {todayProblem.name}
                       </h3>
-                      {(todayProblem as { rating?: number }).rating && (
+                      {todayProblem.rating && (
                         <p className="text-sm text-muted-foreground mt-1">
                           Rating:{" "}
                           <span className="font-semibold text-foreground">
-                            {(todayProblem as { rating?: number }).rating}
+                            {todayProblem.rating}
                           </span>
                         </p>
                       )}
                     </div>
-                    {(todayProblem as { tags?: string[] }).tags && (
+                    {todayProblem.tags && (
                       <div className="flex flex-wrap gap-2">
-                        {((todayProblem as { tags?: string[] }).tags || [])
-                          .slice(0, 5)
-                          .map((tag) => (
-                            <span
-                              key={tag}
-                              className="text-xs px-2 py-0.5 rounded-md bg-primary/10 text-primary font-medium"
-                            >
-                              {tag}
-                            </span>
-                          ))}
+                        {(todayProblem.tags || []).slice(0, 5).map((tag) => (
+                          <span
+                            key={tag}
+                            className="text-xs px-2 py-0.5 rounded-md bg-primary/10 text-primary font-medium"
+                          >
+                            {tag}
+                          </span>
+                        ))}
                       </div>
                     )}
                     <div className="flex items-center gap-3 pt-2">
@@ -310,38 +282,28 @@ export default async function DashboardPage() {
               <CardContent className="space-y-4">
                 {orgs.length > 0 && (
                   <div className="space-y-2">
-                    {orgs.map(
-                      (m: {
-                        id: string;
-                        role: string | null;
-                        organization: {
-                          id: string;
-                          name: string;
-                          inviteCode: string;
-                        };
-                      }) => (
-                        <div
-                          key={m.id}
-                          className="flex items-center justify-between py-2 px-3 rounded-xl bg-muted/40 border"
-                        >
-                          <div>
-                            <p className="text-sm font-semibold">
-                              {m.organization.name}
-                            </p>
-                            <p className="text-xs text-muted-foreground capitalize">
-                              {m.role}
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <div className="flex items-center gap-1 text-xs text-muted-foreground font-mono bg-background border rounded px-2 py-0.5">
-                              {m.organization.inviteCode}
-                              <CopyButton text={m.organization.inviteCode} />
-                            </div>
-                            <LeaveOrgButton orgId={m.organization.id} />
-                          </div>
+                    {orgs.map((m: MembershipWithOrg) => (
+                      <div
+                        key={m.id}
+                        className="flex items-center justify-between py-2 px-3 rounded-xl bg-muted/40 border"
+                      >
+                        <div>
+                          <p className="text-sm font-semibold">
+                            {m.organization.name}
+                          </p>
+                          <p className="text-xs text-muted-foreground capitalize">
+                            {m.role}
+                          </p>
                         </div>
-                      )
-                    )}
+                        <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1 text-xs text-muted-foreground font-mono bg-background border rounded px-2 py-0.5">
+                            {m.organization.inviteCode}
+                            <CopyButton text={m.organization.inviteCode} />
+                          </div>
+                          <LeaveOrgButton orgId={m.organization.id} />
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 )}
                 <div>

@@ -74,7 +74,7 @@ export default function Header() {
               <ModeToggle />
             </div>
             <Link
-              href="/signup"
+              href="/login"
               className="group relative flex items-center gap-2 bg-primary hover:bg-primary/70 transition-all duration-300 rounded-full px-4 py-2 overflow-hidden"
             >
               <span className="text-sm font-semibold text-white relative z-10">

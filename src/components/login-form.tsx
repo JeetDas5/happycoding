@@ -12,18 +12,19 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Mail, Lock, Loader2, LogIn } from "lucide-react";
+import { Mail, Lock, Loader2, LogIn, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 
 interface Props {
   action: (
-    formData: FormData,
+    formData: FormData
   ) => Promise<{ error?: string; success?: boolean }>;
 }
 
 export function LoginForm({ action }: Props) {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -87,12 +88,19 @@ export function LoginForm({ action }: Props) {
                 <Input
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
                   className="pl-10 h-11"
                   required
                   disabled={loading}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-5 top-3 h-3 w-3 text-muted-foreground group-focus-within:text-primary transition-colors cursor-pointer"
+                >
+                  {showPassword ? <Eye /> : <EyeOff />}
+                </button>
               </div>
             </Field>
           </div>

@@ -8,10 +8,11 @@ export async function isLeader(userId: string, orgId: string) {
   return membership?.role === "leader";
 }
 
-export async function getUser(userId: string) {
+export async function getUser(userId: string): Promise<User | null> {
   const user = await db.query.users.findFirst({
     where: (u, { eq }) => eq(u.id, userId),
   });
+  if (!user) return null;
 
   return user;
 }
