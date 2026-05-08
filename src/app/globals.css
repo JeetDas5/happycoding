@@ -107,9 +107,13 @@
   .glass {
     @apply bg-background/60 backdrop-blur-md border border-white/10;
   }
-  
+
   .hero-gradient {
-    background: radial-gradient(circle at top center, oklch(0.65 0.2 260 / 15%), transparent 50%);
+    background: radial-gradient(
+      circle at top center,
+      oklch(0.65 0.2 260 / 15%),
+      transparent 50%
+    );
   }
 }
 
@@ -117,5 +121,19 @@
   button:not([disabled]),
   [role="button"]:not([disabled]) {
     cursor: pointer;
+  }
+}
+
+/* Mobile menu open — blur everything below the navbar */
+@media (max-width: 639px) {
+  /* Add a smooth base transition so unblur is also animated */
+  main {
+    transition: filter 0.25s ease;
+  }
+
+  body.menu-open main {
+    filter: blur(5px);
+    pointer-events: none;
+    user-select: none;
   }
 }
