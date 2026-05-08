@@ -12,8 +12,18 @@ import {
 } from "@/lib/auth-service";
 import { signToken } from "@/lib/jwt";
 import { loginSchema, registerSchema } from "@/validations/auth.validations";
+import { rateLimit, signupLimiter, loginLimiter, passwordResetLimiter } from "@/lib/rate-limiter";
+import { getClientIp } from "@/lib/get-client-ip";
 
 export async function signUpAction(formData: FormData) {
+  const ip = await getClientIp();
+  const rl = rateLimit(`signup:${ip}`, signupLimiter);
+  if (!rl.success) {
+    return {
+      error: `Too many signup attempts. Please try again in ${rl.retryAfter} second${rl.retryAfter === 1 ? "" : "s"}.`,
+    };
+  }
+
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
@@ -45,15 +55,20 @@ export async function verifyEmailAction(token: string) {
 }
 
 export async function loginAction(formData: FormData) {
+  const ip = await getClientIp();
+  const rl = rateLimit(`login:${ip}`, loginLimiter);
+  if (!rl.success) {
+    return {
+      error: `Too many login attempts. Please try again in ${rl.retryAfter} second${rl.retryAfter === 1 ? "" : "s"}.`,
+    };
+  }
+
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
   try {
-    console.log("Attempting login with:", { email, password });
     loginSchema.parse({ email, password });
-    console.log("Schema parsed successfully");
     const result = await login({ email, password });
-    console.log("Login successful:", result);
 
     // Set cookie
     const token = signToken({ userId: result.user.id });
@@ -66,10 +81,7 @@ export async function loginAction(formData: FormData) {
 
     return { success: true };
   } catch (error) {
-    console.log("Login error:", error);
     if (error instanceof z.ZodError) {
-      return { error: error.issues[0].message };
-    } else if (error instanceof z.ZodError) {
       return { error: error.issues[0].message };
     } else if (error instanceof Error) {
       return { error: error.message || "Login failed" };
@@ -79,6 +91,14 @@ export async function loginAction(formData: FormData) {
 }
 
 export async function requestPasswordResetAction(formData: FormData) {
+  const ip = await getClientIp();
+  const rl = rateLimit(`password-reset:${ip}`, passwordResetLimiter);
+  if (!rl.success) {
+    return {
+      error: `Too many reset attempts. Please try again in ${rl.retryAfter} second${rl.retryAfter === 1 ? "" : "s"}.`,
+    };
+  }
+
   const email = formData.get("email") as string;
 
   try {

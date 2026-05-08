@@ -3,6 +3,8 @@
 import { sendMail } from "@/lib/send-email";
 import { generateContactEmail } from "@/templates/contact-email";
 import z from "zod";
+import { rateLimit, contactLimiter } from "@/lib/rate-limiter";
+import { getClientIp } from "@/lib/get-client-ip";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -12,6 +14,14 @@ const contactSchema = z.object({
 });
 
 export async function sendContactEmailAction(formData: FormData) {
+  const ip = await getClientIp();
+  const rl = rateLimit(`contact:${ip}`, contactLimiter);
+  if (!rl.success) {
+    return {
+      error: `Too many submissions. Please try again in ${rl.retryAfter} second${rl.retryAfter === 1 ? "" : "s"}.`,
+    };
+  }
+
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const type = formData.get("type") as "bug" | "feature request" | "feedback";
