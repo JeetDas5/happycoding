@@ -4,10 +4,9 @@ import Header from "@/components/header";
 import SpotlightInit from "@/app/components/SpotlightInit";
 import ScrollAnimInit from "@/app/components/ScrollAnimInit";
 import ContactForm from "@/components/contact-form";
-import { checkHealthStatus } from "@/actions/heath.actions";
+import SystemStatus from "@/components/system-status";
 
 export default async function ContactPage() {
-  const status = await checkHealthStatus();
 
   return (
     <div className="relative min-h-screen bg-background overflow-x-hidden selection:bg-primary/30 selection:text-primary">
@@ -90,19 +89,7 @@ export default async function ContactPage() {
                       <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                         Status
                       </p>
-                      <p className="font-medium text-emerald-500 flex items-center gap-2">
-                        {status === 200 ? (
-                          <>
-                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                            All systems operational
-                          </>
-                        ) : (
-                          <>
-                            <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                            We&apos;ll be back soon
-                          </>
-                        )}
-                      </p>
+                      <SystemStatus />
                     </div>
                   </div>
                 </div>
