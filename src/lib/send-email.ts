@@ -20,16 +20,16 @@ const transporter = nodemailer.createTransport({
 export const sendMail = async ({ to, subject, html }: Props) => {
   try {
     // Nodemailer logic
-    const info = await transporter.sendMail({
-      from: `"HappyCoding" <${process.env.NODE_MAILER_EMAIL}>`,
-      to,
-      subject,
-      html,
-    });
-    return info;
+    // const info = await transporter.sendMail({
+    //   from: `"HappyCoding" <${process.env.NODE_MAILER_EMAIL}>`,
+    //   to,
+    //   subject,
+    //   html,
+    // });
+    // return info;
 
-    /*
-    // Existing Resend logic (kept as requested)
+    
+    // Resend Logic
     const { data, error } = await resend.emails.send({
       from: "HappyCoding <hello@jeetdas.site>",
       to: [to],
@@ -42,7 +42,7 @@ export const sendMail = async ({ to, subject, html }: Props) => {
     }
 
     return data;
-    */
+    
   } catch (error) {
     console.error("Email error:", error);
     throw new Error(error instanceof Error ? error.message : "Failed to send email");
