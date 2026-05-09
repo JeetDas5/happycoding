@@ -5,9 +5,13 @@ import SpotlightInit from "@/app/components/SpotlightInit";
 import ScrollAnimInit from "@/app/components/ScrollAnimInit";
 import ContactForm from "@/components/contact-form";
 import { checkHealthStatus } from "@/actions/heath.actions";
+import axios from "axios";
 
 export default async function ContactPage() {
-  const status = await checkHealthStatus();
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/health`
+  );
+  const { status } = await response.data;
 
   return (
     <div className="relative min-h-screen bg-background overflow-x-hidden selection:bg-primary/30 selection:text-primary">
