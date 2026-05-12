@@ -114,6 +114,61 @@ export const submissions = pgTable(
   ],
 );
 
+export const contests = pgTable("contests", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  organizationId: uuid("organization_id").notNull(),
+  title: text("title").notNull(),
+  description: text("description"),
+
+  startTime: timestamp("start_time").notNull(),
+  endTime: timestamp("end_time").notNull(),
+
+  createdBy: uuid("created_by").notNull(),
+
+  isPublic: boolean("is_public").default(false),
+  status: text("status").notNull().default("upcoming"), // upcoming | ongoing | completed
+
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const contestProblems = pgTable("contest_problems", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  contestId: uuid("contest_id").notNull(),
+  problemId: text("problem_id").notNull(),
+
+  position: text("position").notNull(), // A, B, C...
+});
+
+export const contestParticipants = pgTable("contest_participants", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  contestId: uuid("contest_id").notNull(),
+  userId: uuid("user_id").notNull(),
+
+  joinedAt: timestamp("joined_at").defaultNow(),
+
+  score: integer("score").default(0),
+  penalty: integer("penalty").default(0),
+
+  rank: integer("rank"),
+});
+
+export const contestSubmissions = pgTable("contest_submissions", {
+  id: uuid("id").defaultRandom().primaryKey(),
+
+  contestId: uuid("contest_id").notNull(),
+  userId: uuid("user_id").notNull(),
+  problemId: text("problem_id").notNull(),
+
+  cfSubmissionId: integer("cf_submission_id"),
+
+  verdict: text("verdict"), // OK
+  submittedAt: timestamp("submitted_at").defaultNow(),
+  accepted: boolean("accepted").default(false),
+  penalty: integer("penalty").default(0),
+
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   memberships: many(memberships),
