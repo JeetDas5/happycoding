@@ -148,7 +148,7 @@ export function DashboardNavbar() {
           />
 
           {/* Menu panel */}
-          <div className="fixed inset-0 top-16 z-[85] bg-background flex flex-col p-4 sm:hidden animate-in fade-in slide-in-from-top-4 duration-200">
+          <div className="fixed inset-0 top-16 z-85 bg-background flex flex-col p-4 sm:hidden animate-in fade-in slide-in-from-top-4 duration-200">
             <div className="flex flex-col gap-2 mb-6">
               {navLinks.map((link) => (
                 <Link
