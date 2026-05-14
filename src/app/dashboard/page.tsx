@@ -280,7 +280,7 @@ export default async function DashboardPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {orgs.length > 0 && (
+                {orgs.length > 0 ? (
                   <div className="space-y-2">
                     {orgs.map((m: MembershipWithOrg) => (
                       <div
@@ -296,24 +296,24 @@ export default async function DashboardPage() {
                           </p>
                         </div>
                         <div className="flex items-center gap-2">
-                          <div className="flex items-center gap-1 text-xs text-muted-foreground font-mono bg-background border rounded px-2 py-0.5">
-                            {m.organization.inviteCode}
-                            <CopyButton text={m.organization.inviteCode} />
-                          </div>
-                          <LeaveOrgButton orgId={m.organization.id} />
+                          <Link
+                            href={`/organisation?id=${m.organization.id}`}
+                            className="text-xs font-medium text-primary hover:underline"
+                          >
+                            View Org
+                          </Link>
                         </div>
                       </div>
                     ))}
                   </div>
+                ) : (
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      You are not a member of any organization yet.
+                    </p>
+                    <OrgWidget />
+                  </div>
                 )}
-                <div>
-                  <p className="text-xs text-muted-foreground mb-2 font-medium">
-                    {orgs.length === 0
-                      ? "Join or create an organization"
-                      : "Join another or create"}
-                  </p>
-                  <OrgWidget />
-                </div>
               </CardContent>
             </Card>
           </div>

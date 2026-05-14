@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useTransition } from "react";
@@ -48,6 +47,7 @@ import {
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ITEMS_PER_PAGE } from "@/constants";
+import { cn } from "@/lib/utils";
 
 interface CFWidgetProps {
   cfHandle: string | null | undefined;
@@ -252,7 +252,7 @@ export function OrgWidget() {
               setTab(t);
               setValue("");
             }}
-            className={`flex-1 py-1.5 text-sm font-medium rounded-md capitalize transition-colors ${
+            className={`flex-1 py-1.5 text-sm font-medium rounded-md capitalize transition-colors cursor-pointer ${
               tab === t
                 ? "bg-background shadow-sm text-foreground"
                 : "text-muted-foreground hover:text-foreground"
@@ -272,7 +272,7 @@ export function OrgWidget() {
         <Button
           onClick={submit}
           disabled={isPending || !value.trim()}
-          className="shrink-0"
+          className="shrink-0 cursor-pointer"
         >
           {isPending ? (
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -287,7 +287,13 @@ export function OrgWidget() {
   );
 }
 
-export function CopyButton({ text }: { text: string }) {
+export function CopyButton({
+  text,
+  className,
+}: {
+  text: string;
+  className?: string;
+}) {
   const [copied, setCopied] = useState(false);
 
   function handleCopy() {
@@ -299,7 +305,7 @@ export function CopyButton({ text }: { text: string }) {
   return (
     <button
       onClick={handleCopy}
-      className="p-1 hover:text-primary transition-colors"
+      className={cn("p-1 hover:text-primary transition-colors", className)}
       title="Copy invite code"
     >
       {copied ? (

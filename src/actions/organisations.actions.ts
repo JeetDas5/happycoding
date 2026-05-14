@@ -68,6 +68,30 @@ export async function getOrgMembers(orgId: string) {
   });
 }
 
+export async function getOrganizationDetails(orgId: string) {
+  const org = await db.query.organizations.findFirst({
+    where: (o, { eq }) => eq(o.id, orgId),
+  });
+
+  if (!org) return null;
+
+  const members = await db.query.memberships.findMany({
+    where: (m, { eq }) => eq(m.orgId, orgId),
+    with: {
+      user: true,
+    },
+  });
+
+  return {
+    ...org,
+    members: members.map((m) => ({
+      ...m.user,
+      role: m.role,
+      membershipId: m.id,
+    })),
+  };
+}
+
 export async function getOrgLeaderboard(orgId: string) {
   return await db
     .select({
