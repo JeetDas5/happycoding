@@ -42,6 +42,7 @@ export function DashboardNavbar() {
   const navLinks = [
     { name: "Dashboard", href: "/dashboard" },
     { name: "Practice", href: "/practice" },
+    { name: "Contest", href: "/contest" },
     { name: "Organisation", href: "/organisation" },
     { name: "Profile", href: "/profile" },
   ];
