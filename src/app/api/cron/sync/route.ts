@@ -1,10 +1,12 @@
 import db from "@/db";
 import { syncUser } from "@/helper/sync";
+import { resetExpiredStreaks } from "@/helper";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   const start = Date.now();
   try {
+    await resetExpiredStreaks();
     const allUsers = await db.query.users.findMany();
 
     for (const user of allUsers) {

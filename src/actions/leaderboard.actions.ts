@@ -1,8 +1,10 @@
 import db from "@/db";
 import { users, memberships } from "@/db/schema";
 import { desc, asc, eq, and } from "drizzle-orm";
+import { resetExpiredStreaks } from "@/helper";
 
 export async function getGlobalLeaderboard() {
+  await resetExpiredStreaks();
   return await db.query.users.findMany({
     where: eq(users.cfVerified, true),
     orderBy: [
@@ -14,6 +16,7 @@ export async function getGlobalLeaderboard() {
 }
 
 export async function getOrgLeaderboard(orgId: string) {
+  await resetExpiredStreaks();
   return await db
     .select({
       id: users.id,

@@ -5,6 +5,7 @@ import { desc, eq } from "drizzle-orm";
 
 import db from "@/db";
 import { memberships, organizations, users } from "@/db/schema";
+import { resetExpiredStreaks } from "@/helper";
 
 export async function createOrganization(userId: string, name: string) {
   const inviteCode = nanoid(8);
@@ -69,6 +70,7 @@ export async function getOrgMembers(orgId: string) {
 }
 
 export async function getOrganizationDetails(orgId: string) {
+  await resetExpiredStreaks();
   const org = await db.query.organizations.findFirst({
     where: (o, { eq }) => eq(o.id, orgId),
   });
